@@ -38,6 +38,7 @@ namespace AlvaCleanAPI
 
             builder.Services.AddScoped<IEmployeerRepository, EmployeerRepository>();
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             builder.Services.AddAuthentication(options =>
             {

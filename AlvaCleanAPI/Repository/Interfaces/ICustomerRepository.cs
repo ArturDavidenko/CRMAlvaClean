@@ -1,4 +1,5 @@
 ﻿using AlvaCleanAPI.Models;
+using AlvaCleanAPI.Models.DTOs;
 
 namespace AlvaCleanAPI.Repository.Interfaces
 {
@@ -10,7 +11,7 @@ namespace AlvaCleanAPI.Repository.Interfaces
 
         public Task<List<Customer>> GetCustomersList();
 
-        public Task UpdateCustomer(Customer customerUpdatedData);
+        public Task UpdateCustomer(CustomerDto customerUpdatedData, string customerId);
 
         public Task CreateCustomer(RegisterCustomerModel customer);
     }

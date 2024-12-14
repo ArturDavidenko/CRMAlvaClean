@@ -60,7 +60,7 @@ namespace AlvaCleanAPI.Repository
 
             if (employeer != null && employeer.Role != "admin")
             {
-                await _context.Employeers.DeleteOneAsync(e => e.Id.ToString() == employeerId);
+                await _context.Employeers.DeleteOneAsync(e => e.Id == employeerId);
             }
             else
             {
@@ -70,7 +70,7 @@ namespace AlvaCleanAPI.Repository
 
         public async Task<Employeer> GetEmployeer(string employeerId)
         {
-            var employeer = await _context.Employeers.Find(e => e.Id.ToString() == employeerId).SingleOrDefaultAsync();
+            var employeer = await _context.Employeers.Find(e => e.Id == employeerId).SingleOrDefaultAsync();
 
             if (employeer == null)
             {

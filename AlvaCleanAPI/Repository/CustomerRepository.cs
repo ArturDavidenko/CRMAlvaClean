@@ -1,7 +1,9 @@
 ﻿using AlvaCleanAPI.DataContext;
 using AlvaCleanAPI.Models;
+using AlvaCleanAPI.Models.DTOs;
 using AlvaCleanAPI.Repository.Interfaces;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace AlvaCleanAPI.Repository
 {
@@ -14,29 +16,67 @@ namespace AlvaCleanAPI.Repository
             _context = new MongoContext(options.Value.MongoUrl, options.Value.MongoDbName);
         }
 
-        public Task CreateCustomer(RegisterCustomerModel customer)
+        public async Task CreateCustomer(RegisterCustomerModel customer)
         {
-            throw new NotImplementedException();
+            var customerExist = await _context.Customers.Find(c => c.ClientName == customer.ClientName).SingleOrDefaultAsync();
+            
+            if (customerExist != null)
+            {
+                throw new Exception("Customer already exist!");
+            }
+
+            var newCustomer = new Customer
+            {
+                ClientName = customer.ClientName,
+                CompanyName = customer.CompanyName,
+                ContactPhone = customer.ContactPhone,
+            };
+
+            await _context.Customers.InsertOneAsync(newCustomer);
         }
 
-        public Task DeleteCustomer(string customerId)
+        public async Task DeleteCustomer(string customerId)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Customers.Find(e => e.Id == customerId).SingleOrDefaultAsync();
+
+            if (customer == null)
+            {
+                throw new Exception("Customer not exist !");
+            }
+
+            await _context.Customers.DeleteOneAsync(e => e.Id == customerId);
         }
 
-        public Task<Customer> GetCustomer(string customerId)
+        public async Task<Customer> GetCustomer(string customerId)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Customers.Find(e => e.Id == customerId).SingleOrDefaultAsync();
+
+            if (customer == null) 
+            {
+                throw new Exception("Customer not exist!");
+            }
+
+            return customer;
         }
 
-        public Task<List<Customer>> GetCustomersList()
+        public async Task<List<Customer>> GetCustomersList()
         {
-            throw new NotImplementedException();
+            var customers = await _context.Customers.Find(_ => true).ToListAsync();
+            return customers;
         }
 
-        public Task UpdateCustomer(Customer customerUpdatedData)
+        public async Task UpdateCustomer(CustomerDto customerUpdatedData, string customerId)
         {
-            throw new NotImplementedException();
+            var currentCustomer = await GetCustomer(customerId);
+
+            var filter = Builders<Customer>.Filter.Eq(c => c.Id, currentCustomer.Id);
+
+            var update = Builders<Customer>.Update
+                .Set(c => c.ClientName, customerUpdatedData.ClientName)
+                .Set(c => c.CompanyName, customerUpdatedData.CompanyName)
+                .Set(c => c.ContactPhone, customerUpdatedData.ContactPhone);
+
+            await _context.Customers.UpdateOneAsync(filter, update);
         }
     }
 }
