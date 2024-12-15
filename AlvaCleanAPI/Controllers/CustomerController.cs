@@ -19,7 +19,6 @@ namespace AlvaCleanAPI.Controllers
             _customerRepository = customerRepository;
         }
 
-
         [HttpPost("register-new-customer")]
         public async Task<IActionResult> CreateNewCustomer([FromBody] RegisterCustomerModel model)
         {
@@ -33,7 +32,6 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpDelete("delete-customer/{customerId}")]
         public async Task<IActionResult> DeleteCustomer(string customerId)
@@ -77,7 +75,6 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);  
             }
         }
-
 
         [HttpPut("update-customer/{customerId}")]
         public async Task<IActionResult> UpdateCustomer([FromBody]CustomerDto toUpdateCustomer, string customerId)

@@ -19,6 +19,7 @@ namespace AlvaCleanAPI.Models
         public string ContactPhone { get; set; }
 
         [BsonElement("Orders")]
-        public List<ObjectId> Orders { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> Orders { get; set; }
     }
 }

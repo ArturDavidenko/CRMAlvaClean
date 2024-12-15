@@ -3,6 +3,7 @@ using AlvaCleanAPI.Models;
 using AlvaCleanAPI.Models.DTOs;
 using AlvaCleanAPI.Repository.Interfaces;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace AlvaCleanAPI.Repository
@@ -30,6 +31,7 @@ namespace AlvaCleanAPI.Repository
                 ClientName = customer.ClientName,
                 CompanyName = customer.CompanyName,
                 ContactPhone = customer.ContactPhone,
+                Orders = new List<string>()
             };
 
             await _context.Customers.InsertOneAsync(newCustomer);
