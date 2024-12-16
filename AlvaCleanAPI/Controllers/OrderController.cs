@@ -19,7 +19,7 @@ namespace AlvaCleanAPI.Controllers
         }
 
         [HttpPost("create-new-order/{customerId}")]
-        public async Task<IActionResult> CreteOrder([FromBody]RegisterOrderModel order, string customerId)
+        public async Task<IActionResult> CreteOrder([FromBody] RegisterOrderModel order, string customerId)
         {
             try
             {
@@ -31,5 +31,68 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("get-all-orders")]
+        public async Task<IActionResult> GetAllOrdersList()
+        {
+            try
+            {
+                var ordersList = await _orderRepository.GetOrdersList();
+                return Ok(ordersList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("get-order/{orderId}")]
+        public async Task<IActionResult> GetOrder(string orderId)
+        {
+            try
+            {
+                var order = await _orderRepository.GetOrder(orderId);
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPut("update-order/{orderId}")]
+        public async Task<IActionResult> UpdateOrder([FromBody] OrderDto order, string orderId)
+        {
+            try
+            {
+                await _orderRepository.UpdateOrder(order, orderId);
+                return Ok("Order updated!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpDelete("delete-order/{orderId}")]
+        public async Task<IActionResult> DeleteOrder(string orderId)
+        {
+            try
+            {
+                await _orderRepository.DeleteOrder(orderId);
+                return Ok("Order deleted!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
     }
 }

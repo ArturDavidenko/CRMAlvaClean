@@ -98,8 +98,7 @@ namespace AlvaCleanAPI.Repository
 
         public async Task<List<Employeer>> GetListOfEmployeers()
         {
-            var employeer = await _context.Employeers.Find(_ => true).ToListAsync();
-            return employeer;
+            return await _context.Employeers.Find(_ => true).ToListAsync();
         }
 
 
