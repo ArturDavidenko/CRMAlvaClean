@@ -30,5 +30,9 @@ namespace AlvaCleanAPI.Models
 
         [BsonElement("ClientComments")]
         public string ClientComments { get; set; }
+
+        [BsonElement("Employeers")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> Employeers { get; set; }
     }
 }

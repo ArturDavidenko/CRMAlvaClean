@@ -93,6 +93,34 @@ namespace AlvaCleanAPI.Controllers
             }
         }
 
+
+        [HttpPost("add-order-to-employeer/{orderId}/{employeerId}")]
+        public async Task<IActionResult> AddOrderToEmployeer(string orderId, string employeerId)
+        {
+            try
+            {
+                await _orderRepository.AddOrderToEmployeer(orderId, employeerId);
+                return Ok("Order added to employeer!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("delete-order-from-employeer/{orderId}/{employeerId}")]
+        public async Task<IActionResult> DeleteOrderFromEmployeer(string orderId, string employeerId)
+        {
+            try
+            {
+                await _orderRepository.DeleteOrderFromEmployeer(orderId, employeerId);
+                return Ok("Order deleted from employeer!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         
     }
 }

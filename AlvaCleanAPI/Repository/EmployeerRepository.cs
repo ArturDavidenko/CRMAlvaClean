@@ -37,6 +37,7 @@ namespace AlvaCleanAPI.Repository
                 PasswordHash = passwordHash,
                 PhoneNumber = model.PhoneNumber,
                 Role = model.Role,
+                Orders = new List<string>()
             };
 
             await _context.Employeers.InsertOneAsync(newEmployeer);

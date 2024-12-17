@@ -27,7 +27,8 @@ namespace AlvaCleanAPI.Repository
                 Status = order.Status,
                 Address = order.Address,
                 OrderPriceType = order.OrderPriceType,
-                ClientComments = order.ClientComments
+                ClientComments = order.ClientComments,
+                Employeers = new List<string>()
             };
 
             _context.Orders.InsertOne(newOrder);
@@ -45,11 +46,22 @@ namespace AlvaCleanAPI.Repository
                 throw new Exception("Order not exist!");
             }
 
-            var updateDefinition = Builders<Customer>.Update.Pull(c => c.Orders, orderId);
+            var updateEmployeer = Builders<Employeer>.Update.Pull(e => e.Orders, orderId);
+            await _context.Employeers.UpdateManyAsync(
+                e => e.Orders.Contains(orderId),
+                updateEmployeer
+            );
 
-            var result = await _context.Customers.UpdateOneAsync(
+            var updateOrder = Builders<Order>.Update.Set(o => o.Employeers, new List<string>());
+            await _context.Orders.UpdateOneAsync(
+                o => o.Id == orderId,
+                updateOrder
+            );
+
+            var updateCustomer = Builders<Customer>.Update.Pull(c => c.Orders, orderId);
+            await _context.Customers.UpdateOneAsync(
                 c => c.Id == orderExist.CustomerId,
-                updateDefinition
+                updateCustomer
             );
 
             await _context.Orders.DeleteOneAsync(o => o.Id == orderId);
@@ -86,6 +98,40 @@ namespace AlvaCleanAPI.Repository
                 .Set(o => o.ClientComments, orderUpdatedData.ClientComments);
 
             await _context.Orders.UpdateOneAsync(filter, update);
+        }
+
+        public async Task AddOrderToEmployeer(string orderId, string employeerId)
+        {
+            var updateEmployeer = Builders<Employeer>.Update.Push(c => c.Orders, orderId);
+
+            await _context.Employeers.UpdateOneAsync(
+                c => c.Id == employeerId,
+                updateEmployeer
+            );
+
+            var updateOrder = Builders<Order>.Update.Push(o => o.Employeers, employeerId);
+            await _context.Orders.UpdateOneAsync(
+                o => o.Id == orderId,
+                updateOrder
+            );
+        }
+
+
+        public async Task DeleteOrderFromEmployeer(string orderId, string employeerId)
+        {
+            var updateEmployeer = Builders<Employeer>.Update.Pull(c => c.Orders, orderId);
+
+            await _context.Employeers.UpdateOneAsync(
+                c => c.Id == employeerId,
+                updateEmployeer
+            );
+
+
+            var updateOrder = Builders<Order>.Update.Pull(o => o.Employeers, employeerId);
+            await _context.Orders.UpdateOneAsync(
+                o => o.Id == orderId,
+                updateOrder
+            );
         }
     }
 }
