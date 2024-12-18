@@ -102,6 +102,17 @@ namespace AlvaCleanAPI.Repository
 
         public async Task AddOrderToEmployeer(string orderId, string employeerId)
         {
+
+            var order = await _context.Orders
+                .Find(o => o.Employeers.Contains(employeerId) && o.Id == orderId)
+                .FirstOrDefaultAsync();
+
+            if (order != null)
+            {
+                throw new Exception("This order already exists!");
+            }
+
+
             var updateEmployeer = Builders<Employeer>.Update.Push(c => c.Orders, orderId);
 
             await _context.Employeers.UpdateOneAsync(
