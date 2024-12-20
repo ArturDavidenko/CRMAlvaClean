@@ -6,21 +6,35 @@
 
 @model LoginViewModel
 
-<div class="text-center">
+
+
+<link rel="stylesheet" href="~/css/LoginPage.css" asp-append-version="true"/>
+
+<div class="text-center main-container">
     <h1 class="display-4">AlvaClean System</h1>
     @using (Html.BeginForm("LoginAction", "Home", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+
+        @if (ViewData.ModelState.Values.Any(v => v.Errors.Any()))
+        {
+            foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p style="color: red">@error.ErrorMessage</p>
+            }
+        }
+
         <div class="form-group">
-            @Html.Label("employeerLastName", "Фамилия работника", new { @class = "control-label" })
+            @Html.LabelFor(m => m.employeerLastName, "Фамилия работника", new { @class = "control-label" })
             @Html.TextBoxFor(m => m.employeerLastName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.employeerLastName)
+           
         </div>
         <div class="form-group">
-            @Html.Label("employeerPassword", "Пароль", new { @class = "control-label" })
+            @Html.LabelFor(m => m.employeerPassword, "Пароль", new { @class = "control-label" })
             @Html.PasswordFor(m => m.employeerPassword, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.employeerPassword)
+            
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     }
 </div>
+

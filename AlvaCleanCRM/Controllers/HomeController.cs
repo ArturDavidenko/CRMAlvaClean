@@ -28,8 +28,16 @@ namespace AlvaCleanCRM.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> LoginAction(string employeerLastName, string employeerPassword)
         {
-            await _employeerRepository.LogIn(employeerLastName, employeerPassword);
-            return RedirectToAction("HomePage");
+            try
+            {
+                await _employeerRepository.LogIn(employeerLastName, employeerPassword);
+                return RedirectToAction("HomePage");
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "login or password invalid !");
+                return View("LoginPage");
+            }
         }
 
         public IActionResult HomePage()
