@@ -1,0 +1,77 @@
+﻿.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+}
+
+.card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        padding: 20px;
+        text-align: center;
+    }
+
+.card-content {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.material-icons {
+    color: blue;
+}
+
+.content {
+    margin-top: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    margin-top: 20%;
+
+
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+    .stats-card a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        padding: 20px;
+        text-align: center;
+    }
