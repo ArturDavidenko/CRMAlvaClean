@@ -34,6 +34,34 @@ namespace AlvaCleanAPI.Controllers
 
         }
 
+        [HttpPost("add-photo-to-employeer/{employeerId}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddPhoto([FromForm] IFormFile file, string employeerId)
+        {
+            try
+            {
+                await _employeerRepository.AddPhotoToEmployeer(file, employeerId);
+                return Ok("Image Upload!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-employeer-photo/{imageId}")]
+        public async Task<IActionResult> GetEmployeerPhoto(string imageId)
+        {
+            try
+            {
+                var photo = await _employeerRepository.GetEmployeerPhoto(imageId);
+                return Ok(photo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);         
+            }
+        }
 
         [HttpDelete("delete-employeer/{employeerId}")]
         public async Task<IActionResult> DeleteEmployeer(string employeerId)
@@ -92,10 +120,5 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             } 
         }
-
-
-
-
-
     }
 }

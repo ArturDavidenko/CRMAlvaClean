@@ -5,7 +5,7 @@ namespace AlvaCleanAPI.DataContext
 {
     public class MongoContext
     {
-        private readonly IMongoDatabase _database;
+        public readonly IMongoDatabase _database;
         public MongoContext(string connectionString, string databaseName)
         {
             var client = new MongoClient(connectionString);

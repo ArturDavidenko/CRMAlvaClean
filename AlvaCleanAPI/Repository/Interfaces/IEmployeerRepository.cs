@@ -18,6 +18,8 @@ namespace AlvaCleanAPI.Repository.Interfaces
 
         public Task<List<Employeer>> GetListOfEmployeers();
 
+        public Task AddPhotoToEmployeer(IFormFile file, string employeerId);
 
+        public Task<byte[]> GetEmployeerPhoto(string imageId);
     }
 }

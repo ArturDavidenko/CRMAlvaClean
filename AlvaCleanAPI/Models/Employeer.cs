@@ -25,6 +25,10 @@ namespace AlvaCleanAPI.Models
         [BsonElement("PasswordHash")]
         public string PasswordHash { get; set; }
 
+        [BsonElement("ImageId")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? ImageId { get; set; }
+
         [BsonElement("Orders")]
         [BsonRepresentation(BsonType.ObjectId)]
         public List<string> Orders { get; set; }

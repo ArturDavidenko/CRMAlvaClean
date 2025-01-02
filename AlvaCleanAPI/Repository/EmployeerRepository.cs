@@ -3,7 +3,9 @@ using AlvaCleanAPI.Models;
 using AlvaCleanAPI.Models.DTOs;
 using AlvaCleanAPI.Repository.Interfaces;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AlvaCleanAPI.Repository
@@ -12,11 +14,13 @@ namespace AlvaCleanAPI.Repository
     {
         private readonly MongoContext _context;
         private readonly IAuthRepository _authRepository;
+        private readonly IGridFSBucket _gridFS;
 
         public EmployeerRepository(IOptions<MongoSettings> options, IAuthRepository authRepository)
         {
             _context = new MongoContext(options.Value.MongoUrl, options.Value.MongoDbName);
             _authRepository = authRepository;
+            _gridFS = new GridFSBucket(_context._database);
         }
 
         public async Task RegisterNewEmployeer(RegisterEmployeerModel model)
@@ -24,10 +28,8 @@ namespace AlvaCleanAPI.Repository
             var existUser = await _context.Employeers.Find(e => e.LastName == model.LastName).SingleOrDefaultAsync();
 
             if (existUser != null)
-            {
                 throw new Exception("User already exists");
-            }
-
+  
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
             var newEmployeer = new Employeer
@@ -37,10 +39,45 @@ namespace AlvaCleanAPI.Repository
                 PasswordHash = passwordHash,
                 PhoneNumber = model.PhoneNumber,
                 Role = model.Role,
-                Orders = new List<string>()
+                Orders = new List<string>(),
             };
 
             await _context.Employeers.InsertOneAsync(newEmployeer);
+        }
+
+        public async Task AddPhotoToEmployeer(IFormFile file, string employeerId)
+        {
+            var employeer = await _context.Employeers.Find(e => e.Id == employeerId).SingleOrDefaultAsync();
+
+            if (employeer == null)
+                throw new Exception("Employeer not exist!");
+
+            ObjectId imageId;
+            using (var stream = file.OpenReadStream())
+            {
+               imageId = await _gridFS.UploadFromStreamAsync(file.Name, stream);
+            }
+
+            var filter = Builders<Employeer>.Filter.Eq(e => e.Id, employeerId);
+            var update = Builders<Employeer>.Update.Set(e => e.ImageId, imageId.ToString());
+
+            await _context.Employeers.UpdateOneAsync(filter, update);
+        }
+
+
+        public async Task<byte[]> GetEmployeerPhoto(string imageId)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+               
+                if (!ObjectId.TryParse(imageId, out var id))
+                {
+                    throw new Exception("Failed to upload file");
+                }
+
+                await _gridFS.DownloadToStreamAsync(id, memoryStream);
+                return memoryStream.ToArray(); 
+            }
         }
 
         public async Task<JwtSecurityToken> LoginEmployeer(LoginEmployeerModel model)

@@ -5,6 +5,7 @@ namespace AlvaCleanAPI.Models
 {
     public class RegisterEmployeerModel
     {
+        [BsonElement("Password")]
         public string Password { get; set; }
 
         [BsonElement("FirstName")]
@@ -15,11 +16,8 @@ namespace AlvaCleanAPI.Models
 
         [BsonElement("Role")]
         public string Role{ get; set; }
+
         [BsonElement("PhoneNumber")]
         public string PhoneNumber { get; set; }
-
-        [BsonElement("Orders")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public List<string> Orders { get; set; }
     }
 }

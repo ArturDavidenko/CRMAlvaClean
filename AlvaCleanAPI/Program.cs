@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
@@ -34,6 +35,7 @@ namespace AlvaCleanAPI
                 });
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
+                options.OperationFilter<SwaggerFileOperationFilter>();
             });
 
             builder.Services.AddScoped<IEmployeerRepository, EmployeerRepository>();
@@ -78,6 +80,7 @@ namespace AlvaCleanAPI
 
 
             builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("DataContext"));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
