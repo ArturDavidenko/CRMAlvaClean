@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;
@@ -62,6 +62,21 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);         
             }
         }
+
+        [HttpDelete("delete-photo-of-employeer/{imageId}")]
+        public async Task<IActionResult> DeletePhotoOfEmployeer(string imageId)
+        {
+            try
+            {
+                await _employeerRepository.DeletePhotoOfEmployeer(imageId);
+                return Ok("Photo deleted!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpDelete("delete-employeer/{employeerId}")]
         public async Task<IActionResult> DeleteEmployeer(string employeerId)

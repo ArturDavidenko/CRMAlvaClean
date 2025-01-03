@@ -47,8 +47,5 @@ namespace AlvaCleanCRM.Controllers
             return View();
         }
 
-
-
-
     }
 }

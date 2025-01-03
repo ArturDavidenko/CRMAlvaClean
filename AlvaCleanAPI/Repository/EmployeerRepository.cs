@@ -80,6 +80,29 @@ namespace AlvaCleanAPI.Repository
             }
         }
 
+        public async Task DeletePhotoOfEmployeer(string imageId)
+        {
+            try
+            {
+                //Here might be error like half data can be deleted but other half can get
+                //exception and second half not changed but first half aready changed
+                
+                var filter = Builders<Employeer>.Filter.Eq(e => e.ImageId, imageId);
+                var update = Builders<Employeer>.Update.Set(e => e.ImageId, null);
+
+                await _context.Employeers.UpdateOneAsync(filter, update);
+
+                var fileId = new ObjectId(imageId);
+                await _gridFS.DeleteAsync(fileId);
+            }
+            catch 
+            {
+                throw new Exception("Failed to delete photo !");
+            }
+            
+        }
+
+
         public async Task<JwtSecurityToken> LoginEmployeer(LoginEmployeerModel model)
         {
             var employeer = await _context.Employeers.Find(e => e.LastName == model.EmployeerLastName).SingleOrDefaultAsync();
