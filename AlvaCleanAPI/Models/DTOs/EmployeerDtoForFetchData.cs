@@ -1,12 +1,13 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AlvaCleanAPI.Models.DTOs
 {
-    public class EmployeerDto
+    public class EmployeerDtoForFetchData
     {
-
-        
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
         [BsonElement("FirstName")]
         public string FirstName { get; set; }
@@ -19,5 +20,9 @@ namespace AlvaCleanAPI.Models.DTOs
 
         [BsonElement("Role")]
         public string Role { get; set; }
+
+        [BsonElement("Orders")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> Orders { get; set; }
     }
 }

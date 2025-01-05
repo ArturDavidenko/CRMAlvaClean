@@ -1,7 +1,16 @@
-﻿
-@{
+﻿@{
 }
 
+@model List<Employeer>
+
 <div>
-    Employeers PAGES !
+
+    @foreach (var item in Model)
+    {
+        <div>
+            @item.FirstName
+        </div>
+    }
+
 </div>
+

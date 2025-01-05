@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AlvaCleanCRM.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlvaCleanCRM.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult EmployeersPage()
+
+        private readonly IEmployeerRepository _employeerRepository;
+
+        public AdminController(IEmployeerRepository employeerRepository) 
         {
-            return View();
+            _employeerRepository = employeerRepository;        
+        }
+
+
+        public async Task<IActionResult> EmployeersPage()
+        {
+            var listOfEmployeers = await _employeerRepository.GetAllEmployeers();
+            return View(listOfEmployeers);
         }
     }
 }

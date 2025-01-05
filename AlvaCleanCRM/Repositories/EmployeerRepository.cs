@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using AlvaCleanCRM.Models;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -19,12 +20,22 @@ namespace AlvaCleanCRM.Repositories
         public readonly string _autAPIUrl;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
+        private readonly string _empAPIUrl;
 
         public EmployeerRepository(IOptions<ApiSettings> apiSettings, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _autAPIUrl = apiSettings.Value.AuthUrl;
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
+            _empAPIUrl = apiSettings.Value.EmployeerUrl;
+        }
+
+        public async Task<List<Employeer>> GetAllEmployeers()
+        {
+            SetUpRequestHeaderAuthorization();
+
+            var response = await _httpClient.GetAsync($"{_empAPIUrl}/get-all-employeers");
+            return await response.Content.ReadFromJsonAsync<List<Employeer>>();
         }
 
         public async Task LogIn(string lastName, string password)
@@ -49,6 +60,12 @@ namespace AlvaCleanCRM.Repositories
             _httpContextAccessor.HttpContext.Response.Cookies.Append("authToken", token.token, cookieOptions);
             _httpContextAccessor.HttpContext.Session.SetString("authToken", token.token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.token);
+        }
+
+        public void SetUpRequestHeaderAuthorization()
+        {
+            var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }

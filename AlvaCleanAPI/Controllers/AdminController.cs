@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;
@@ -128,7 +128,17 @@ namespace AlvaCleanAPI.Controllers
             try
             {
                 var employeersList = await _employeerRepository.GetListOfEmployeers();
-                return Ok(employeersList);
+                var employeerDtos = employeersList.Select(e => new EmployeerDtoForFetchData
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    PhoneNumber = e.PhoneNumber,
+                    Role = e.Role,
+                    Orders = e.Orders
+                }).ToList();
+
+                return Ok(employeerDtos);
             }
             catch (Exception ex)
             {
