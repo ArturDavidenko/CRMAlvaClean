@@ -24,5 +24,7 @@ namespace AlvaCleanAPI.Models.DTOs
         [BsonElement("Orders")]
         [BsonRepresentation(BsonType.ObjectId)]
         public List<string> Orders { get; set; }
+
+        public byte[] Image { get; set; }
     }
 }

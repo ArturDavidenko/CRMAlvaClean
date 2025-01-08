@@ -8,5 +8,6 @@
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
         public List<string> Orders { get; set; }
+        public byte[] Image { get; set; }
     }
 }

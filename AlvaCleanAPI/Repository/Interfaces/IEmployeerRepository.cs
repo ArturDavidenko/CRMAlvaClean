@@ -23,5 +23,7 @@ namespace AlvaCleanAPI.Repository.Interfaces
         public Task<byte[]> GetEmployeerPhoto(string imageId);
 
         public Task DeletePhotoOfEmployeer(string imageId);
+
+        public byte[] GetEmployeerPhotoNotAsync(string imageId);
     }
 }

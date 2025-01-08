@@ -3,14 +3,55 @@
 
 @model List<Employeer>
 
-<div>
+<link rel="stylesheet" href="~/css/EmployeerPage.css" asp-append-version="true" />
 
-    @foreach (var item in Model)
-    {
-        <div>
-            @item.FirstName
+<div class="content"> 
+    <div class="grid-container">
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <a asp-action="GetContentOfEmployeer" asp-area="Admin">
+                        <div class="card-content">
+
+                            @if(item.Image != null)
+                            {
+                                <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"></img>
+                            }
+
+                            <p>
+                                <h3>@item.FirstName<br/> @item.LastName</h3>
+                                Role: @item.Role<br/>
+                                Count of orders:@item.Orders.Count()
+                            </p>
+
+                            <a asp-action="EmployeerOrdersPage" asp-area="Admin" asp-route-Id="@item.Id"
+                               class="btn btn-primary">Show orders</a>
+
+                            <a asp-action="EditEmployeer" asp-area="Admin" asp-route-Id="@item.Id"
+                               class="btn btn-warning">Edit</a>
+
+                            <a asp-action="DeleteEmployeer" asp-area="Admin" asp-route-Id="@item.Id"
+                               class="btn btn-danger">Delete</a>
+
+                        </div>
+                    </a>
+
+                </div>
+            }
+        }
+
+        <div class="add-card">
+            <a asp-action="AddNewEmployeerPage" asp-area="Admin">
+                <div class="card-content" style="color: green">
+                    Add new Employeer +
+                </div>
+            </a>
         </div>
-    }
 
+
+    </div>
 </div>
 

@@ -1,0 +1,82 @@
+﻿.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: center; 
+}
+
+.card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    word-wrap: break-word;
+    min-height: 550px;
+    min-width: 230px; /* Минимальная ширина */
+    max-width: 1fr; /* Разрешить карточкам растягиваться в пределах контейнера */
+}
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        padding: 20px;
+        text-align: center;
+    }
+
+.card-content {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.content {
+    margin-top: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.add-card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.add-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.add-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 20px;
+    text-align: center;
+}
+
+.btn{
+    width: 150px;
+    height: 0;
+    margin-bottom: 10px
+}

@@ -80,6 +80,27 @@ namespace AlvaCleanAPI.Repository
             }
         }
 
+
+        public byte[] GetEmployeerPhotoNotAsync(string imageId)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+
+                ObjectId.TryParse(imageId, out var id);
+                
+                try
+                {
+                    _gridFS.DownloadToStream(id, memoryStream);
+                    return memoryStream.ToArray();
+                }
+                catch 
+                {
+                    return null;
+                }
+                
+            }
+        }
+
         public async Task DeletePhotoOfEmployeer(string imageId)
         {
             try

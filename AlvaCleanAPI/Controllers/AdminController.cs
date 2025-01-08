@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;
@@ -135,7 +135,8 @@ namespace AlvaCleanAPI.Controllers
                     LastName = e.LastName,
                     PhoneNumber = e.PhoneNumber,
                     Role = e.Role,
-                    Orders = e.Orders
+                    Orders = e.Orders,
+                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(e.ImageId)
                 }).ToList();
 
                 return Ok(employeerDtos);
