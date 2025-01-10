@@ -1,4 +1,5 @@
 ﻿using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.RegisterModels;
 
 namespace AlvaCleanCRM.Repositories.Interfaces
 {
@@ -9,5 +10,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task<List<Employeer>> GetAllEmployeers();
 
         public void SetUpRequestHeaderAuthorization();
+
+        public Task AddNewEmployeer(RegisterEmployeerModel model);
     }
 }

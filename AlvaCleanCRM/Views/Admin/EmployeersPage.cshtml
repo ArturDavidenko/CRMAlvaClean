@@ -27,17 +27,26 @@
                                 Count of orders:@item.Orders.Count()
                             </p>
 
-                            <a asp-action="EmployeerOrdersPage" asp-area="Admin" asp-route-Id="@item.Id"
-                               class="btn btn-primary">Show orders</a>
+                            <div class="buttons-container">
+                                <a asp-action="EmployeerOrdersPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">
+                                    Show orders
+                                </a>
 
-                            <a asp-action="EditEmployeer" asp-area="Admin" asp-route-Id="@item.Id"
-                               class="btn btn-warning">Edit</a>
+                                <a asp-action="EditEmployeer" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-warning">
+                                    Edit
+                                </a>
 
-                            <a asp-action="DeleteEmployeer" asp-area="Admin" asp-route-Id="@item.Id"
-                               class="btn btn-danger">Delete</a>
+                                <a asp-action="DeleteEmployeer" asp-area="Admin" asp-route-Id="@item.Id" class="btn btn-danger">
+                                    Delete
+                                </a>
+                            </div>
+                            
+                            
 
                         </div>
                     </a>
+
+                    
 
                 </div>
             }

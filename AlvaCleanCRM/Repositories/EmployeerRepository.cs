@@ -12,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.RegisterModels;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -21,6 +22,7 @@ namespace AlvaCleanCRM.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
         private readonly string _empAPIUrl;
+        private readonly string _adminAPIUrl;
 
         public EmployeerRepository(IOptions<ApiSettings> apiSettings, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
@@ -60,6 +62,14 @@ namespace AlvaCleanCRM.Repositories
             _httpContextAccessor.HttpContext.Response.Cookies.Append("authToken", token.token, cookieOptions);
             _httpContextAccessor.HttpContext.Session.SetString("authToken", token.token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.token);
+        }
+
+        public async Task AddNewEmployeer(RegisterEmployeerModel model)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync($"{_empAPIUrl}/register-new-employeer", jsonContent);
         }
 
         public void SetUpRequestHeaderAuthorization()

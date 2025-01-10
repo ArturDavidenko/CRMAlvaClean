@@ -1,6 +1,6 @@
 ﻿.grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
     padding: 20px;
     width: 100%;
@@ -32,7 +32,7 @@
         display: block;
         text-decoration: none;
         color: inherit;
-        padding: 20px;
+        padding: 5px;
         text-align: center;
     }
 
@@ -77,6 +77,12 @@
 
 .btn{
     width: 150px;
-    height: 0;
-    margin-bottom: 10px
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
 }
