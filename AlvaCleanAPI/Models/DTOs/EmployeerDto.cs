@@ -6,8 +6,6 @@ namespace AlvaCleanAPI.Models.DTOs
     public class EmployeerDto
     {
 
-        
-
         [BsonElement("FirstName")]
         public string FirstName { get; set; }
 

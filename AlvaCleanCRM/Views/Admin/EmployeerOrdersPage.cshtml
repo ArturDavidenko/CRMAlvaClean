@@ -4,9 +4,28 @@
 @{
 }
 
-@model string
+@model List<Order>
 
 
-<div>
-    @Model
+<div class="container">
+
+    @if (Model.Count != 0)
+    {
+        <div>
+            @foreach (var item in Model)
+            {
+                <div>
+                    Order Date: @item.OrderDate
+                    Order Type: @item.OrderType
+                    Order Price Type: @item.OrderPriceType
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h2>Employeer have not yet orders !</h2>
+    }
+
+    
 </div>

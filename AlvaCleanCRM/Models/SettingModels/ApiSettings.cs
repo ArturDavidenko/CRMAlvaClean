@@ -6,5 +6,6 @@
         public string CustomerUrl { get; set; }
         public string OrderUrl { get; set; }
         public string AuthUrl { get; set; }
+        public string AdminUrl { get; set; }
     }
 }

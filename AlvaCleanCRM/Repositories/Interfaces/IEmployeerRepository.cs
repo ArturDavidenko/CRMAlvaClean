@@ -12,5 +12,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public void SetUpRequestHeaderAuthorization();
 
         public Task AddNewEmployeer(RegisterEmployeerModel model);
+
+        public Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId);
     }
 }

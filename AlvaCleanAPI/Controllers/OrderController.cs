@@ -8,7 +8,7 @@ namespace AlvaCleanAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "employeer,admin")]
+    //[Authorize(Roles = "employeer,admin")]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
@@ -121,6 +121,23 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("get-all-orders-of-employeer/{employeerId}")]
+        public async Task<IActionResult> GetAllOrdersOfEmployeer(string employeerId)
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersOfEmployeer(employeerId);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         
     }
 }

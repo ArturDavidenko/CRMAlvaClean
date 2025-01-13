@@ -144,5 +144,12 @@ namespace AlvaCleanAPI.Repository
                 updateOrder
             );
         }
+
+        public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
+        {
+            return await _context.Orders
+                .Find(order => order.Employeers.Contains(employeerId))
+                .ToListAsync();
+        }
     }
 }

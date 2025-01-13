@@ -23,6 +23,7 @@ namespace AlvaCleanCRM.Repositories
         private readonly HttpClient _httpClient;
         private readonly string _empAPIUrl;
         private readonly string _adminAPIUrl;
+        private readonly string _orderAPIUrl;
 
         public EmployeerRepository(IOptions<ApiSettings> apiSettings, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
@@ -30,6 +31,8 @@ namespace AlvaCleanCRM.Repositories
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
             _empAPIUrl = apiSettings.Value.EmployeerUrl;
+            _orderAPIUrl = apiSettings.Value.OrderUrl;
+            _adminAPIUrl = apiSettings.Value.AdminUrl;
         }
 
         public async Task<List<Employeer>> GetAllEmployeers()
@@ -72,10 +75,29 @@ namespace AlvaCleanCRM.Repositories
             await _httpClient.PostAsync($"{_empAPIUrl}/register-new-employeer", jsonContent);
         }
 
+
+        public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            var response = await _httpClient.GetAsync($"{_orderAPIUrl}/get-all-orders-of-employeer/{employeerId}");
+            var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
+
+            if (orders != null)
+            {
+                return orders;
+            }
+
+            return new List<Order>();
+
+        }
+
         public void SetUpRequestHeaderAuthorization()
         {
             var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
+        
     }
 }

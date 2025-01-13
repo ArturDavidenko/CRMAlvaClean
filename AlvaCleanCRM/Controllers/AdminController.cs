@@ -23,7 +23,8 @@ namespace AlvaCleanCRM.Controllers
 
         public async Task<IActionResult> EmployeerOrdersPage(string Id)
         {
-            return View("EmployeerOrdersPage", Id);
+            var empOrders = await _employeerRepository.GetAllOrdersOfEmployeer(Id);
+            return View("EmployeerOrdersPage", empOrders);
         }
 
         public IActionResult AddNewEmployeerPage() 
@@ -37,5 +38,10 @@ namespace AlvaCleanCRM.Controllers
             await _employeerRepository.AddNewEmployeer(model);
             return RedirectToAction("EmployeersPage");
         }
+
+
+
+
+
     }
 }

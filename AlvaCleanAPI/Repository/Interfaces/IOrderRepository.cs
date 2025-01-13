@@ -18,5 +18,7 @@ namespace AlvaCleanAPI.Repository.Interfaces
         public Task AddOrderToEmployeer(string orderId, string employeerId);
 
         public Task DeleteOrderFromEmployeer(string orderId, string employeerId);
+
+        public Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId);
     }
 }
