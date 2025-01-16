@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AlvaCleanCRM.Models;
 using AlvaCleanCRM.Models.RegisterModels;
+using AlvaCleanCRM.Models.DTOs;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -91,6 +92,46 @@ namespace AlvaCleanCRM.Repositories
             return new List<Order>();
 
         }
+
+        public async Task<List<Order>> GetAllOrders()
+        {
+            var response = await _httpClient.GetAsync($"{_orderAPIUrl}/get-all-orders");
+
+            var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
+
+            if (orders != null)
+            {
+                return orders;
+            }
+
+            return new List<Order>();
+        }
+
+
+        public async Task<Employeer> GetEmployeer(string id)
+        {
+            var response = await _httpClient.GetAsync($"{_adminAPIUrl}/get-employeer/{id}");
+
+            return await response.Content.ReadFromJsonAsync<Employeer>();
+        }
+
+
+        public async Task UpdateEmployeer(Employeer model)
+        {
+            var employeerDto = new EmployeerToUpdateDto 
+            { 
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                Role = model.Role
+            };
+
+            var jsonContent = new StringContent(JsonSerializer.Serialize(employeerDto), Encoding.UTF8, "application/json");
+
+            await _httpClient.PutAsync($"{_adminAPIUrl}/update-employeer/{model.Id}", jsonContent);
+        }
+
 
         public void SetUpRequestHeaderAuthorization()
         {

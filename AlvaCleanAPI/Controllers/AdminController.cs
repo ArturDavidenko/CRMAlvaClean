@@ -99,7 +99,17 @@ namespace AlvaCleanAPI.Controllers
             try
             {
                 var employeer = await _employeerRepository.GetEmployeer(employeerId);
-                return Ok(employeer);
+                var employeerDto = new EmployeerDtoForFetchData
+                {
+                    Id = employeer.Id,
+                    FirstName = employeer.FirstName,
+                    LastName = employeer.LastName,
+                    PhoneNumber = employeer.PhoneNumber,
+                    Role = employeer.Role,
+                    Orders = employeer.Orders,
+                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(employeer.ImageId)
+                };
+                return Ok(employeerDto);
             }
             catch (Exception ex)
             {

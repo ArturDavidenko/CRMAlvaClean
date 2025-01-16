@@ -1,4 +1,5 @@
-﻿using AlvaCleanCRM.Models.RegisterModels;
+﻿using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.RegisterModels;
 using AlvaCleanCRM.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +41,24 @@ namespace AlvaCleanCRM.Controllers
         }
 
 
+        public async Task<IActionResult> AllOrdersPage()
+        {
+            var orders = await _employeerRepository.GetAllOrders();
+            return View("AllOrdersPage", orders);
+        }
 
+        public async Task<IActionResult> EditEmployeerPage(string id)
+        {
+            var employeer = await _employeerRepository.GetEmployeer(id);
+            return View("EditEmployeerPage", employeer);
+        }
+
+
+        public async Task<IActionResult> UpdateEmployeer(Employeer model)
+        {
+            await _employeerRepository.UpdateEmployeer(model);
+            return RedirectToAction("EmployeersPage");
+        }
 
 
     }
