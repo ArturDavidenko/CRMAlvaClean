@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using AlvaCleanCRM.Models;
 using AlvaCleanCRM.Models.RegisterModels;
 using AlvaCleanCRM.Models.DTOs;
+using Microsoft.AspNetCore.Http;
+using System.Net.Mime;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -95,6 +97,8 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task<List<Order>> GetAllOrders()
         {
+            SetUpRequestHeaderAuthorization();
+
             var response = await _httpClient.GetAsync($"{_orderAPIUrl}/get-all-orders");
 
             var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
@@ -110,14 +114,61 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task<Employeer> GetEmployeer(string id)
         {
+            SetUpRequestHeaderAuthorization();
+
             var response = await _httpClient.GetAsync($"{_adminAPIUrl}/get-employeer/{id}");
 
             return await response.Content.ReadFromJsonAsync<Employeer>();
         }
 
-
-        public async Task UpdateEmployeer(Employeer model)
+        public async Task<EmployeerToUpdateDto> GetEmployeerToUpdate(string id)
         {
+            SetUpRequestHeaderAuthorization();
+
+            var response = await _httpClient.GetAsync($"{_adminAPIUrl}/get-employeer/{id}");
+
+            var emp = await response.Content.ReadFromJsonAsync<Employeer>();
+
+            if (emp.Image != null)
+            {
+                var stream = new MemoryStream(emp.Image);
+                var fromFileImage = new FormFile(stream, 0, emp.Image.Length, "file", "Image")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application/octet-stream"
+                };
+
+                var empToUpdateDto = new EmployeerToUpdateDto
+                {
+                    Id = emp.Id,
+                    FirstName = emp.FirstName,
+                    LastName = emp.LastName,
+                    PhoneNumber = emp.PhoneNumber,
+                    Role = emp.Role,
+                    Image = fromFileImage
+                };
+
+                return empToUpdateDto;
+            }
+
+            var empToUpdateDtoWithoutImage = new EmployeerToUpdateDto
+            {
+                Id = emp.Id,
+                FirstName = emp.FirstName,
+                LastName = emp.LastName,
+                PhoneNumber = emp.PhoneNumber,
+                Role = emp.Role,
+                Image = null
+            };
+
+            return empToUpdateDtoWithoutImage;
+        }
+
+
+        public async Task UpdateEmployeer(EmployeerToUpdateDto model)
+        {
+            SetUpRequestHeaderAuthorization();
+
             var employeerDto = new EmployeerToUpdateDto 
             { 
                 Id = model.Id,
@@ -130,6 +181,29 @@ namespace AlvaCleanCRM.Repositories
             var jsonContent = new StringContent(JsonSerializer.Serialize(employeerDto), Encoding.UTF8, "application/json");
 
             await _httpClient.PutAsync($"{_adminAPIUrl}/update-employeer/{model.Id}", jsonContent);
+
+            //this block can anyway doing when block upper is failed. that bad example of code
+
+            if (model.Image != null)
+            {
+                var formData = new MultipartFormDataContent();
+
+                var fileContent = new StreamContent(model.Image.OpenReadStream());
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(model.Image.ContentType);
+
+                formData.Add(fileContent, "file", model.Image.FileName);
+
+                formData.Add(new StringContent(model.Id), "employeerId");
+
+                //var jsonContentImage = new StringContent(JsonSerializer.Serialize(formData), Encoding.UTF8, "application/json");
+
+                await _httpClient.PostAsync($"{_adminAPIUrl}/add-photo-to-employeer/{model.Id}", formData);
+            }
+        }
+
+        public Task<byte[]> GetImageEmployeer(string imageId)
+        {
+            throw new NotImplementedException();
         }
 
 

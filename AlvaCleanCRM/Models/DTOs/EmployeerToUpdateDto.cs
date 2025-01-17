@@ -1,4 +1,6 @@
-﻿namespace AlvaCleanCRM.Models.DTOs
+﻿using Microsoft.AspNetCore.Http;
+
+namespace AlvaCleanCRM.Models.DTOs
 {
     public class EmployeerToUpdateDto
     {
@@ -7,5 +9,6 @@
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AlvaCleanCRM.Models
+﻿using Microsoft.AspNetCore.Http;
+
+namespace AlvaCleanCRM.Models
 {
     public class Employeer
     {

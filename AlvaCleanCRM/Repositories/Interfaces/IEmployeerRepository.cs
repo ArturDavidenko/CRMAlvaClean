@@ -1,4 +1,5 @@
 ﻿using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.DTOs;
 using AlvaCleanCRM.Models.RegisterModels;
 
 namespace AlvaCleanCRM.Repositories.Interfaces
@@ -19,7 +20,10 @@ namespace AlvaCleanCRM.Repositories.Interfaces
 
         public Task<Employeer> GetEmployeer(string id);
 
-        public Task UpdateEmployeer(Employeer model);
-       
+        public Task UpdateEmployeer(EmployeerToUpdateDto model);
+
+        public Task<byte[]> GetImageEmployeer(string imageId);
+
+        public Task<EmployeerToUpdateDto> GetEmployeerToUpdate(string id);
     }
 }

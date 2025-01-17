@@ -2,7 +2,9 @@
 @{
 }
 
-@model Employeer
+@using AlvaCleanCRM.Models.DTOs
+
+@model EmployeerToUpdateDto
 
 
 <link rel="stylesheet" href="~/css/EditEmployeerPage.css" asp-append-version="true" />
@@ -17,7 +19,7 @@
 
         @if (Model.Image != null)
         {
-            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" />
+            @* <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)"/> *@
         }
 
         <form asp-action="UpdateEmployeer" method="post" enctype="multipart/form-data">
@@ -47,7 +49,7 @@
 
             <div class="form-group">
                 <label asp-for="Image" class="control-label">Change or add photo</label>
-                <input asp-for="Image" type="file" />
+                <input asp-for="Image" type="file" class="form-control"/>
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
 
