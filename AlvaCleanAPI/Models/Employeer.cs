@@ -27,7 +27,7 @@ namespace AlvaCleanAPI.Models
 
         [BsonElement("ImageId")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? ImageId { get; set; }
+        public string ImageId { get; set; }
 
         [BsonElement("Orders")]
         [BsonRepresentation(BsonType.ObjectId)]

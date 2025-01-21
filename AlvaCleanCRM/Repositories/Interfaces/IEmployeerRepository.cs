@@ -22,8 +22,8 @@ namespace AlvaCleanCRM.Repositories.Interfaces
 
         public Task UpdateEmployeer(EmployeerToUpdateDto model);
 
-        public Task<byte[]> GetImageEmployeer(string imageId);
-
         public Task<EmployeerToUpdateDto> GetEmployeerToUpdate(string id);
+
+        public Task DeleteImageOfEmployeer(string ImageId);
     }
 }

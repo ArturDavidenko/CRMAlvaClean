@@ -107,7 +107,8 @@ namespace AlvaCleanAPI.Controllers
                     PhoneNumber = employeer.PhoneNumber,
                     Role = employeer.Role,
                     Orders = employeer.Orders,
-                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(employeer.ImageId)
+                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(employeer.ImageId),
+                    ImageId = employeer.ImageId
                 };
                 return Ok(employeerDto);
             }
@@ -146,7 +147,8 @@ namespace AlvaCleanAPI.Controllers
                     PhoneNumber = e.PhoneNumber,
                     Role = e.Role,
                     Orders = e.Orders,
-                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(e.ImageId)
+                    Image = _employeerRepository.GetEmployeerPhotoNotAsync(e.ImageId),
+                    ImageId = e.ImageId
                 }).ToList();
 
                 return Ok(employeerDtos);

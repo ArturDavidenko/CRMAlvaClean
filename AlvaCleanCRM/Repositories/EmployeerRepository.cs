@@ -145,7 +145,8 @@ namespace AlvaCleanCRM.Repositories
                     LastName = emp.LastName,
                     PhoneNumber = emp.PhoneNumber,
                     Role = emp.Role,
-                    Image = fromFileImage
+                    Image = fromFileImage,
+                    ImageId = emp.ImageId
                 };
 
                 return empToUpdateDto;
@@ -158,12 +159,12 @@ namespace AlvaCleanCRM.Repositories
                 LastName = emp.LastName,
                 PhoneNumber = emp.PhoneNumber,
                 Role = emp.Role,
-                Image = null
+                Image = null,
+                ImageId = null
             };
 
             return empToUpdateDtoWithoutImage;
         }
-
 
         public async Task UpdateEmployeer(EmployeerToUpdateDto model)
         {
@@ -186,6 +187,13 @@ namespace AlvaCleanCRM.Repositories
 
             if (model.Image != null)
             {
+                var employeer = await GetEmployeer(model.Id);
+
+                if (employeer.Image != null) 
+                {
+                    await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{employeer.ImageId}");
+                }
+
                 var formData = new MultipartFormDataContent();
 
                 var fileContent = new StreamContent(model.Image.OpenReadStream());
@@ -201,11 +209,13 @@ namespace AlvaCleanCRM.Repositories
             }
         }
 
-        public Task<byte[]> GetImageEmployeer(string imageId)
+        public async Task DeleteImageOfEmployeer(string ImageId)
         {
-            throw new NotImplementedException();
+            if (ImageId != null)
+            {
+                await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{ImageId}");
+            }
         }
-
 
         public void SetUpRequestHeaderAuthorization()
         {

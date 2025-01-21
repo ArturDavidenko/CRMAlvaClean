@@ -10,5 +10,7 @@ namespace AlvaCleanCRM.Models.DTOs
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
         public IFormFile Image { get; set; }
+
+        public string ImageId { get; set; }
     }
 }

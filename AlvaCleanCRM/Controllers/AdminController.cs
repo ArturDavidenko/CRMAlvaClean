@@ -58,5 +58,11 @@ namespace AlvaCleanCRM.Controllers
             return RedirectToAction("EmployeersPage");
         }
 
+
+        public async Task<IActionResult> DeletePhotoOfEmployeer(string ImageId)
+        {
+            await _employeerRepository.DeleteImageOfEmployeer(ImageId);
+            return RedirectToAction("EmployeersPage");
+        }
     }
 }

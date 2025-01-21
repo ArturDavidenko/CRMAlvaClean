@@ -11,5 +11,6 @@ namespace AlvaCleanCRM.Models
         public string Role { get; set; }
         public List<string> Orders { get; set; }
         public byte[] Image { get; set; }
+        public string ImageId { get; set; }
     }
 }
