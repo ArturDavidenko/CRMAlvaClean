@@ -6,6 +6,18 @@
 
 @model EmployeerToUpdateDto
 
+@{
+
+    byte[]? image = null;
+    if (Model.Image != null)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            Model.Image.CopyTo(memoryStream);
+            image = memoryStream.ToArray();
+        }
+    }
+}
 
 <link rel="stylesheet" href="~/css/EditEmployeerPage.css" asp-append-version="true" />
 
@@ -16,10 +28,9 @@
         <h2>Edit Employeer: </h2>
         <h3>@Model.FirstName @Model.LastName</h3>
 
-
-        @if (Model.Image != null)
+        @if (image != null)
         {
-            @* <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)"/> *@
+            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(image)"/>
         }
 
         <form asp-action="UpdateEmployeer" method="post" enctype="multipart/form-data">

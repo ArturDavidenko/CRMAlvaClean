@@ -15,8 +15,6 @@ namespace AlvaCleanCRM.Controllers
         {
             _employeerRepository = employeerRepository;        
         }
-
-
         public async Task<IActionResult> EmployeersPage()
         {
             var listOfEmployeers = await _employeerRepository.GetAllEmployeers();
@@ -40,7 +38,6 @@ namespace AlvaCleanCRM.Controllers
             await _employeerRepository.AddNewEmployeer(model);
             return RedirectToAction("EmployeersPage");
         }
-
 
         public async Task<IActionResult> AllOrdersPage()
         {
