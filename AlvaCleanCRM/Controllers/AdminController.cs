@@ -42,6 +42,7 @@ namespace AlvaCleanCRM.Controllers
         public async Task<IActionResult> AllOrdersPage()
         {
             var orders = await _employeerRepository.GetAllOrders();
+
             return View("AllOrdersPage", orders);
         }
 
@@ -63,6 +64,14 @@ namespace AlvaCleanCRM.Controllers
         {
             await _employeerRepository.DeleteImageOfEmployeer(ImageId);
             return RedirectToAction("EmployeersPage");
+        }
+
+
+        public async Task<IActionResult> GetContentOfEmployeer(string Id)
+        {
+            var employeer = await _employeerRepository.GetEmployeer(Id);
+
+            return View("ContentOfEmployeerPage", employeer);
         }
     }
 }

@@ -217,6 +217,9 @@ namespace AlvaCleanCRM.Repositories
             }
         }
 
+
+
+
         public void SetUpRequestHeaderAuthorization()
         {
             var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");

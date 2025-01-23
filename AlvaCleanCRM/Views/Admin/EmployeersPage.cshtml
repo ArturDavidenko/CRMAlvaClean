@@ -13,7 +13,7 @@
             @foreach (var item in Model)
             {
                 <div class="card">
-                    <a asp-action="GetContentOfEmployeer" asp-area="Admin">
+                    <a asp-action="GetContentOfEmployeer" asp-area="Admin" asp-route-Id="@item.Id">
                         <div class="card-content">
 
                             @if(item.Image != null)
