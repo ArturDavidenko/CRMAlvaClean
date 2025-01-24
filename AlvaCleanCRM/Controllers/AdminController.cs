@@ -1,8 +1,11 @@
 ﻿using AlvaCleanCRM.Models;
 using AlvaCleanCRM.Models.DTOs;
 using AlvaCleanCRM.Models.RegisterModels;
+using AlvaCleanCRM.Models.ViewModels;
 using AlvaCleanCRM.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AlvaCleanCRM.Controllers
 {
