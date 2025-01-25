@@ -9,14 +9,30 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="content">
     <div class="grid-container">
-        <div class="card">
-            <a asp-action="AllOrdersPage" asp-controller="Admin">
-                <div class="card-content">
-                <span class="material-icons" style="font-size: 96px;">apps</span>
-                    My Orders
-                </div>
-            </a>
-        </div>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        {
+            <div class="card">
+                <a asp-action="AllOrdersPage" asp-controller="Admin" >
+                    <div class="card-content">
+                        <span class="material-icons" style="font-size: 96px;">apps</span>
+                        All Orders
+                    </div>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="card">
+                <a asp-action="AllOrdersPageOfEmployeer" asp-controller="Employeer" 
+                asp-route-employeerId="@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value">
+                    <div class="card-content">
+                        <span class="material-icons" style="font-size: 96px;">apps</span>
+                        My Orders
+                    </div>
+                </a>
+            </div>
+        }
+
         <div class="card">
             <a href="#">
                 <div class="card-content">
@@ -25,6 +41,7 @@
                 </div>
             </a>
         </div>
+
         @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
         {
             <div class="card">
@@ -52,8 +69,8 @@
             <div class="card-content">
                 <h1>Stats of this month</h1>
                 <div class="stats-info">
-                    Count of orders: XXX</br>
-                    Count of customers: XXX</br>
+                    Count of orders: XXX<br/>
+                    Count of customers: XXX<br/>
                     Count of employeers: XXX
                 </div>
             </div>
