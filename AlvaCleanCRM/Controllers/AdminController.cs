@@ -74,7 +74,15 @@ namespace AlvaCleanCRM.Controllers
         {
             var employeer = await _employeerRepository.GetEmployeer(Id);
 
-            return View("ContentOfEmployeerPage", employeer);
+            var orders = await _employeerRepository.GetAllOrdersOfEmployeer(employeer.Id);
+
+            var viewModel = new ContentOfEmployeerViewModel
+            {
+                Employeer = employeer,
+                Orders = orders
+            };
+
+            return View("ContentOfEmployeerPage", viewModel);
         }
     }
 }

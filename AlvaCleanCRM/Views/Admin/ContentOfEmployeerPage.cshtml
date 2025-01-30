@@ -1,5 +1,6 @@
-﻿
-@model Employeer
+﻿@using AlvaCleanCRM.Models.ViewModels
+
+@model ContentOfEmployeerViewModel
 
 @{
 }
@@ -7,38 +8,44 @@
 <link rel="stylesheet" href="~/css/ContentOfEmployeerPage.css" asp-append-version="true" />
 
 <div class="profile-container">
-    <!-- Левая колонка: Аватар и информация -->
+    
     <div class="profile-info">
-        @if (@Model.Image != null)
+        @if (@Model.Employeer.Image != null)
         {
-            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Image)" alt="Аватар" />
+            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Employeer.Image)" alt="Аватар" />
         }
-        <h2>@Model.FirstName @Model.LastName</h2>
-        <p>Role: @Model.Role</p>
+        <h2>@Model.Employeer.FirstName @Model.Employeer.LastName</h2>
+        <p>Role: @Model.Employeer.Role</p>
     </div>
 
-    <!-- Правая колонка: Список заказов -->
+    
     <div class="orders-section">
         <h3>Orders</h3>
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <!-- Пример карточки заказа -->
-                @for (int i = 1; i <= 5; i++)
-                {
-                    <div class="swiper-slide order-card">
-                        <h4>Order: #@i</h4>
-                        <p>фывфывфывфыв</p>
-                        <p>фывфывфывфыв</p>
-                        <p>фывфывфывфыв</p>
-                        <p>фывфывфывфыв</p>
-                        
+            @if (Model.Orders.Count > 0)
+            {
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.Orders)
+                        {
+                            <div class="swiper-slide order-card">
+                                <h4>Order: #@item.Id</h4>
+                                <p>Date: @item.OrderDate</p>
+                                <p>Address: @item.Address</p>
+                                <p>Price type: @item.OrderPriceType</p>
+                            </div>
+                        }
                     </div>
-                }
-            </div>
-            <!-- Кнопки прокрутки -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
+
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h4>Orders not exist!</h4>
+                </div>
+            }
     </div>
 </div>
 
