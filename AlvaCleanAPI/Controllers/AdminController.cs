@@ -158,5 +158,21 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             } 
         }
+
+
+        [HttpPost("upload-photo-for-use")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddPhotoForUse([FromForm] IFormFile file)
+        {
+            try
+            {
+                await _employeerRepository.AddPhotoToSystemForUse(file);
+                return Ok("File Upload!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

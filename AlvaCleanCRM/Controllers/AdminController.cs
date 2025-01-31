@@ -14,9 +14,9 @@ namespace AlvaCleanCRM.Controllers
 
         private readonly IEmployeerRepository _employeerRepository;
 
-        public AdminController(IEmployeerRepository employeerRepository) 
+        public AdminController(IEmployeerRepository employeerRepository)
         {
-            _employeerRepository = employeerRepository;        
+            _employeerRepository = employeerRepository;
         }
         public async Task<IActionResult> EmployeersPage()
         {
@@ -30,8 +30,8 @@ namespace AlvaCleanCRM.Controllers
             return View("EmployeerOrdersPage", empOrders);
         }
 
-        public IActionResult AddNewEmployeerPage() 
-        { 
+        public IActionResult AddNewEmployeerPage()
+        {
             return View();
         }
 
@@ -84,5 +84,13 @@ namespace AlvaCleanCRM.Controllers
 
             return View("ContentOfEmployeerPage", viewModel);
         }
+
+        
+        public async Task<IActionResult> DeleteEmployeer(string Id)
+        {
+            await _employeerRepository.DeleteEmployeer(Id);
+            return RedirectToAction("EmployeersPage");
+        }
+
     }
 }

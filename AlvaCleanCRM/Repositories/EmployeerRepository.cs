@@ -111,7 +111,6 @@ namespace AlvaCleanCRM.Repositories
             return new List<Order>();
         }
 
-
         public async Task<Employeer> GetEmployeer(string id)
         {
             SetUpRequestHeaderAuthorization();
@@ -211,13 +210,19 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task DeleteImageOfEmployeer(string ImageId)
         {
+            SetUpRequestHeaderAuthorization();
+
             if (ImageId != null)
             {
                 await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{ImageId}");
             }
         }
 
-
+        public async Task DeleteEmployeer(string id)
+        {
+            SetUpRequestHeaderAuthorization();
+            await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-employeer/{id}");
+        }
 
 
         public void SetUpRequestHeaderAuthorization()

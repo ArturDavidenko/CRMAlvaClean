@@ -23,6 +23,22 @@ namespace AlvaCleanAPI.Repository
             _gridFS = new GridFSBucket(_context._database);
         }
 
+
+        public async Task AddPhotoToSystemForUse(IFormFile file)
+        {
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                   await _gridFS.UploadFromStreamAsync(file.Name, stream);
+                }
+            }
+            catch
+            {
+                throw new Exception("Can't load file!");
+            }
+        }
+
         public async Task RegisterNewEmployeer(RegisterEmployeerModel model)
         {
             var existUser = await _context.Employeers.Find(e => e.LastName == model.LastName).SingleOrDefaultAsync();
@@ -40,6 +56,7 @@ namespace AlvaCleanAPI.Repository
                 PhoneNumber = model.PhoneNumber,
                 Role = model.Role,
                 Orders = new List<string>(),
+                ImageId = "679d31a5d600c667d68e84b9"
             };
 
             await _context.Employeers.InsertOneAsync(newEmployeer);
@@ -113,8 +130,11 @@ namespace AlvaCleanAPI.Repository
 
                 await _context.Employeers.UpdateOneAsync(filter, update);
 
-                var fileId = new ObjectId(imageId);
-                await _gridFS.DeleteAsync(fileId);
+                if (imageId != "679d31a5d600c667d68e84b9")
+                {
+                    var fileId = new ObjectId(imageId);
+                    await _gridFS.DeleteAsync(fileId);
+                }
             }
             catch 
             {
@@ -122,7 +142,6 @@ namespace AlvaCleanAPI.Repository
             }
             
         }
-
 
         public async Task<JwtSecurityToken> LoginEmployeer(LoginEmployeerModel model)
         {
@@ -138,10 +157,12 @@ namespace AlvaCleanAPI.Repository
 
         public async Task DeleteEmployeer(string employeerId)
         {
-            var employeer = await _context.Employeers.Find(e => e.Id.ToString() == employeerId).SingleOrDefaultAsync();
+            var employeer = await _context.Employeers.Find(e => e.Id == employeerId).SingleOrDefaultAsync();
 
             if (employeer != null && employeer.Role != "admin")
             {
+                await DeletePhotoOfEmployeer(employeer.ImageId);
+
                 await _context.Employeers.DeleteOneAsync(e => e.Id == employeerId);
             }
             else
