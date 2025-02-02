@@ -6,26 +6,40 @@
 
 @model List<Order>
 
+<link rel="stylesheet" href="~/css/AllOrdersPage.css" asp-append-version="true" />
 
-<div class="container">
-
-    @if (Model.Count != 0)
-    {
-        <div>
+<div class="content">
+    <div class="grid-container">
+        @if (Model.Count > 0)
+        {
             @foreach (var item in Model)
             {
-                <div>
-                    Order Date: @item.OrderDate
-                    Order Type: @item.OrderType
-                    Order Price Type: @item.OrderPriceType
+                <div class="card">
+                    <div class="card-content">
+
+                        <h3>@item.OrderDate.ToString("dd.MM.yyyy")</h3>
+                        Status: @item.Status<br />
+                        Price Type: @item.OrderPriceType<br />
+                        Order Type: @item.OrderType<br />
+                        Address: @item.Address<br />
+
+                        Employeers count: @item.Employeers.Count
+
+                        <div class="buttons-container">
+                            <a asp-action="ShowOrder" class="btn btn-primary">View Order</a>
+                        </div>
+                    </div>
                 </div>
             }
-        </div>
-    }
-    else
-    {
-        <h2>Employeer have not yet orders !</h2>
-    }
 
-    
+        }
+        else
+        {
+            <div>
+                Orders not exist!
+            </div>
+        }
+    </div>
+
+</div>
 </div>

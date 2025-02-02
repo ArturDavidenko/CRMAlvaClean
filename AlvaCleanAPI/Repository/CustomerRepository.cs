@@ -29,6 +29,7 @@ namespace AlvaCleanAPI.Repository
             var newCustomer = new Customer
             {
                 ClientName = customer.ClientName,
+                CustomerType = customer.CustomerType,
                 CompanyName = customer.CompanyName,
                 ContactPhone = customer.ContactPhone,
                 Orders = new List<string>()
@@ -76,7 +77,8 @@ namespace AlvaCleanAPI.Repository
             var update = Builders<Customer>.Update
                 .Set(c => c.ClientName, customerUpdatedData.ClientName)
                 .Set(c => c.CompanyName, customerUpdatedData.CompanyName)
-                .Set(c => c.ContactPhone, customerUpdatedData.ContactPhone);
+                .Set(c => c.ContactPhone, customerUpdatedData.ContactPhone)
+                .Set(c => c.CustomerType, customerUpdatedData.CustomerType);
 
             await _context.Customers.UpdateOneAsync(filter, update);
         }

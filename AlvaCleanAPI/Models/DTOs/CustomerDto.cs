@@ -5,6 +5,10 @@ namespace AlvaCleanAPI.Models.DTOs
 {
     public class CustomerDto
     {
+
+        [BsonElement("CustomerType")]
+        public string CustomerType { get; set; }
+
         [BsonElement("ClientName")]
         public string ClientName { get; set; }
 

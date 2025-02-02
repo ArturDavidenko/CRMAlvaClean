@@ -9,6 +9,9 @@ namespace AlvaCleanAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [BsonElement("CustomerType")]
+        public string CustomerType { get; set; }
+
         [BsonElement("ClientName")]
         public string ClientName { get; set; }
 

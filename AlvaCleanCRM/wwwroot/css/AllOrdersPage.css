@@ -18,8 +18,8 @@
     transform: scale(1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     word-wrap: break-word;
-    min-height: 350px;
-    min-width: 130px; /* Минимальная ширина */
+    min-height: 300px;
+    min-width: 100px; /* Минимальная ширина */
     max-width: 1fr; /* Разрешить карточкам растягиваться в пределах контейнера */
 }
 
