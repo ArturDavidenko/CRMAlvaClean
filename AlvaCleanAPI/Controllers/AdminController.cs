@@ -63,12 +63,12 @@ namespace AlvaCleanAPI.Controllers
             }
         }
 
-        [HttpDelete("delete-photo-of-employeer/{imageId}")]
-        public async Task<IActionResult> DeletePhotoOfEmployeer(string imageId)
+        [HttpDelete("delete-photo-of-employeer/{employeerId}")]
+        public async Task<IActionResult> DeletePhotoOfEmployeer(string employeerId)
         {
             try
             {
-                await _employeerRepository.DeletePhotoOfEmployeer(imageId);
+                await _employeerRepository.DeletePhotoOfEmployeer(employeerId);
                 return Ok("Photo deleted!");
             }
             catch (Exception ex)

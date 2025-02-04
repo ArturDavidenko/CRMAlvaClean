@@ -7,6 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using System.IdentityModel.Tokens.Jwt;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AlvaCleanAPI.Repository
 {
@@ -118,14 +119,20 @@ namespace AlvaCleanAPI.Repository
             }
         }
 
-        public async Task DeletePhotoOfEmployeer(string imageId)
+        public async Task DeletePhotoOfEmployeer(string employeerId)
         {
             try
             {
                 //Here might be error like half data can be deleted but other half can get
                 //exception and second half not changed but first half aready changed
-                
-                var filter = Builders<Employeer>.Filter.Eq(e => e.ImageId, imageId);
+                var emp = await GetEmployeer(employeerId);
+                var imageId = emp.ImageId;
+
+                var filter = Builders<Employeer>.Filter.And(
+                    Builders<Employeer>.Filter.Eq(e => e.Id, employeerId),
+                    Builders<Employeer>.Filter.Eq(e => e.ImageId, imageId)
+                );
+
                 var update = Builders<Employeer>.Update.Set(e => e.ImageId, null);
 
                 await _context.Employeers.UpdateOneAsync(filter, update);
@@ -161,7 +168,7 @@ namespace AlvaCleanAPI.Repository
 
             if (employeer != null && employeer.Role != "admin")
             {
-                await DeletePhotoOfEmployeer(employeer.ImageId);
+                await DeletePhotoOfEmployeer(employeer.Id);
 
                 await _context.Employeers.DeleteOneAsync(e => e.Id == employeerId);
             }
