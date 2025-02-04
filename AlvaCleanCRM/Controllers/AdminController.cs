@@ -63,9 +63,9 @@ namespace AlvaCleanCRM.Controllers
         }
 
 
-        public async Task<IActionResult> DeletePhotoOfEmployeer(string ImageId)
+        public async Task<IActionResult> DeletePhotoOfEmployeer(string Id)
         {
-            await _employeerRepository.DeleteImageOfEmployeer(ImageId);
+            await _employeerRepository.DeleteImageOfEmployeer(Id);
             return RedirectToAction("EmployeersPage");
         }
 

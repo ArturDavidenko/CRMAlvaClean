@@ -208,13 +208,13 @@ namespace AlvaCleanCRM.Repositories
             }
         }
 
-        public async Task DeleteImageOfEmployeer(string ImageId)
+        public async Task DeleteImageOfEmployeer(string employeerId)
         {
             SetUpRequestHeaderAuthorization();
 
-            if (ImageId != null)
+            if (employeerId != null)
             {
-                await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{ImageId}");
+                await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{employeerId}");
             }
         }
 
