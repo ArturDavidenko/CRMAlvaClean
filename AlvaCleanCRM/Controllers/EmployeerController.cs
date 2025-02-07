@@ -21,7 +21,12 @@ namespace AlvaCleanCRM.Controllers
         }
 
         
+        public async Task<IActionResult> GetProfileOfEmployeer(string employeerId)
+        {
+            var employeer = await _employeerRepository.GetEmployeer(employeerId);
 
+            return View("EmployeerProfile", employeer);
+        }
 
 
     }

@@ -1,0 +1,22 @@
+﻿@{
+}
+
+@model Employeer
+
+
+<div>
+
+    @if (Model.Image != null)
+    {
+        <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Image)" />
+    }
+    
+    <div>
+        <h3>@Model.FirstName @Model.LastName</h3>
+        <p>Role: @Model.Role</p>
+
+
+    </div>
+
+
+</div>
