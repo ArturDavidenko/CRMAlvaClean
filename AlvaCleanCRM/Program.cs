@@ -18,10 +18,10 @@ namespace AlvaCleanCRM
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             
-
             builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("APIUrlSettings"));
       
             builder.Services.AddScoped<IEmployeerRepository, EmployeerRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddHttpClient();
 
             builder.Services.AddHttpContextAccessor();

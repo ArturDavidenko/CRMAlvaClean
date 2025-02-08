@@ -12,7 +12,6 @@ namespace AlvaCleanCRM.Controllers
             _employeerRepository = employeerRepository;
         }
 
-
         public async Task<IActionResult> AllOrdersPageOfEmployeer(string employeerId)
         {
             var orders = await _employeerRepository.GetAllOrdersOfEmployeer(employeerId);

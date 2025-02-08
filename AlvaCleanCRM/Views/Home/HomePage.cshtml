@@ -46,7 +46,7 @@
         @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
         {
             <div class="card">
-                <a href="#">
+                <a asp-action="GetListOfAllCustomer" asp-controller="Admin">
                     <div class="card-content">
                     <span class="material-icons" style="font-size: 96px;">groups</span>
                         Customers

@@ -1,0 +1,23 @@
+﻿
+@model List<Customer>
+
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div>
+            @if (item.ClientName == null)
+            {
+                <h3>@item.CompanyName</h3>
+            }
+            else
+            {
+                <h3>@item.ClientName</h3>
+            }
+
+            <p>Type of customer: @item.CustomerType</p>
+
+            <p>Contact phone: @item.ContactPhone</p>
+        </div>
+    }
+</div>

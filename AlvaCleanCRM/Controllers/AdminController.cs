@@ -13,10 +13,12 @@ namespace AlvaCleanCRM.Controllers
     {
 
         private readonly IEmployeerRepository _employeerRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        public AdminController(IEmployeerRepository employeerRepository)
+        public AdminController(IEmployeerRepository employeerRepository, ICustomerRepository customerRepository)
         {
             _employeerRepository = employeerRepository;
+            _customerRepository = customerRepository;
         }
         public async Task<IActionResult> EmployeersPage()
         {
@@ -90,6 +92,13 @@ namespace AlvaCleanCRM.Controllers
         {
             await _employeerRepository.DeleteEmployeer(Id);
             return RedirectToAction("EmployeersPage");
+        }
+
+
+        public async Task<IActionResult> GetListOfAllCustomer()
+        {
+            var customersList = await _customerRepository.GetAllCustomers();
+            return View("AllCustomersListPage", customersList);
         }
 
     }
