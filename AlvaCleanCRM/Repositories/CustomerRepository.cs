@@ -1,8 +1,11 @@
 ﻿using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.RegisterModels;
 using AlvaCleanCRM.Models.SettingModels;
 using AlvaCleanCRM.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -19,9 +22,24 @@ namespace AlvaCleanCRM.Repositories
             _customerUrl = apiSettings.Value.CustomerUrl;
         }
 
-        public Task CreateNewCustomer()
+        public async Task CreateNewCustomer(RegisterCustomerModel model)
         {
-            throw new NotImplementedException();
+            SetUpRequestHeaderAuthorization();
+
+            //Temporary version (BAD CODE!)
+            if (model.ClientName == null)
+            {
+                model.ClientName = "";
+            }
+            else
+            {
+                model.CompanyName = "";
+            }
+
+            var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+
+            await _httpClient.PostAsync($"{_customerUrl}/register-new-customer", jsonContent);
+
         }
 
         public async Task<List<Customer>> GetAllCustomers()

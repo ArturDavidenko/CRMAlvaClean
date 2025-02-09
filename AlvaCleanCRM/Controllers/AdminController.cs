@@ -104,5 +104,11 @@ namespace AlvaCleanCRM.Controllers
             return View();
         }
 
+        public async Task<IActionResult> AddNewCustomer(RegisterCustomerModel model)
+        {
+            await _customerRepository.CreateNewCustomer(model);
+            return RedirectToAction("GetListOfAllCustomer");
+        }
+
     }
 }
