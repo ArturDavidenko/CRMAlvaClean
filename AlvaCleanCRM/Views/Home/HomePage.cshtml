@@ -43,7 +43,7 @@
             </a>
         </div>
 
-        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        @if (User.Identity.IsAuthenticated && User.IsInRole("admin") && User.Identity.IsAuthenticated || User.IsInRole("manager"))
         {
             <div class="card">
                 <a asp-action="GetListOfAllCustomer" asp-controller="Admin">

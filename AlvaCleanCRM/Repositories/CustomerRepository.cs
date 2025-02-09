@@ -11,13 +11,17 @@ namespace AlvaCleanCRM.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
         private readonly string _customerUrl;
-        
-
+       
         public CustomerRepository(IOptions<ApiSettings> apiSettings)
         {
             _httpClient = new HttpClient();
             _httpContextAccessor = new HttpContextAccessor();
             _customerUrl = apiSettings.Value.CustomerUrl;
+        }
+
+        public Task CreateNewCustomer()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<List<Customer>> GetAllCustomers()

@@ -11,7 +11,6 @@ namespace AlvaCleanCRM.Controllers
 {
     public class AdminController : Controller
     {
-
         private readonly IEmployeerRepository _employeerRepository;
         private readonly ICustomerRepository _customerRepository;
 
@@ -36,7 +35,6 @@ namespace AlvaCleanCRM.Controllers
         {
             return View();
         }
-
 
         public async Task<IActionResult> AddNewEmployeer(RegisterEmployeerModel model)
         {
@@ -99,6 +97,11 @@ namespace AlvaCleanCRM.Controllers
         {
             var customersList = await _customerRepository.GetAllCustomers();
             return View("AllCustomersListPage", customersList);
+        }
+
+        public async Task<IActionResult> AddNewCustomerPage()
+        {
+            return View();
         }
 
     }

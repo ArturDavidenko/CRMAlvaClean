@@ -126,6 +126,10 @@ namespace AlvaCleanAPI.Repository
                 //Here might be error like half data can be deleted but other half can get
                 //exception and second half not changed but first half aready changed
                 var emp = await GetEmployeer(employeerId);
+
+                if (emp.ImageId == null)
+                    return;
+
                 var imageId = emp.ImageId;
 
                 var filter = Builders<Employeer>.Filter.And(
