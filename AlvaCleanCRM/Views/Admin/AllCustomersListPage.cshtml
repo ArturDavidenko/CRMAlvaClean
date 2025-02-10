@@ -30,8 +30,11 @@
 
                             <a asp-action="" class="btn btn-warning">Edit Customer</a>
 
-                            <a asp-action="" class="btn btn-danger">Delete Customer</a>
-                            
+                            <a asp-action="DeleteCustomer" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">
+                                Delete Customer
+                                <span class="progress-bar"></span>
+                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -55,3 +58,40 @@
     </div>
 
 </div>
+
+
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteButtons = document.querySelectorAll(".delete-btn");
+
+            deleteButtons.forEach(button => {
+                let timeout;
+                let progressBar = button.querySelector(".progress-bar");
+
+                button.addEventListener("mouseenter", function () {
+                    if (!button.classList.contains("active")) {
+                        progressBar.style.width = "100%"; 
+
+                        timeout = setTimeout(() => {
+                            button.classList.add("active"); 
+                        }, 3000);
+                    }
+                });
+
+                button.addEventListener("mouseleave", function () {
+                    if (!button.classList.contains("active")) {
+                        clearTimeout(timeout); 
+                        progressBar.style.width = "0"; 
+                    }
+                });
+
+                button.addEventListener("click", function (event) {
+                    if (!button.classList.contains("active")) {
+                        event.preventDefault(); 
+                    }
+                });
+            });
+        });
+    </script>
+}

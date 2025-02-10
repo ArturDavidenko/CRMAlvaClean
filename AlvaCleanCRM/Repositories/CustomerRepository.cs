@@ -42,6 +42,12 @@ namespace AlvaCleanCRM.Repositories
 
         }
 
+        public async Task DeleteCustomer(string id)
+        {
+            SetUpRequestHeaderAuthorization();
+            await _httpClient.DeleteAsync($"{_customerUrl}/delete-customer/{id}");
+        }
+
         public async Task<List<Customer>> GetAllCustomers()
         {
             SetUpRequestHeaderAuthorization();

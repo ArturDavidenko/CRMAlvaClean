@@ -110,5 +110,11 @@ namespace AlvaCleanCRM.Controllers
             return RedirectToAction("GetListOfAllCustomer");
         }
 
+        public async Task<IActionResult> DeleteCustomer(string Id)
+        {
+            await _customerRepository.DeleteCustomer(Id);
+            return RedirectToAction("GetListOfAllCustomer");
+        }
+
     }
 }

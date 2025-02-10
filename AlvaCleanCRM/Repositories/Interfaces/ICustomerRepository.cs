@@ -8,5 +8,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task<List<Customer>> GetAllCustomers();
 
         public Task CreateNewCustomer(RegisterCustomerModel model);
+
+        public Task DeleteCustomer(string id);
     }
 }

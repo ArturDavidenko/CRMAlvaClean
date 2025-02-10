@@ -86,3 +86,25 @@
     flex-direction: column;
     margin-top: 30px;
 }
+
+.delete-btn {
+    position: relative;
+    overflow: hidden;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+    .delete-btn.active {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+.progress-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 0;
+    background: red;
+    transition: width 3s linear;
+}
