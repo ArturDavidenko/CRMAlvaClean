@@ -19,8 +19,12 @@ namespace AlvaCleanAPI.Repository
 
         public async Task CreateCustomer(RegisterCustomerModel customer)
         {
-            var customerExist = await _context.Customers.Find(c => c.ClientName == customer.ClientName).SingleOrDefaultAsync();
-            
+            var customerExist = await _context.Customers
+                        .Find(c =>
+                            (c.ClientName == customer.ClientName && c.ClientName != "") ||
+                            (c.CompanyName == customer.CompanyName && c.CompanyName != ""))
+                        .SingleOrDefaultAsync();
+
             if (customerExist != null)
             {
                 throw new Exception("Customer already exist!");
