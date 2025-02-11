@@ -19,11 +19,7 @@ namespace AlvaCleanAPI.Repository
 
         public async Task CreateCustomer(RegisterCustomerModel customer)
         {
-            var customerExist = await _context.Customers
-                        .Find(c =>
-                            (c.ClientName == customer.ClientName && c.ClientName != "") ||
-                            (c.CompanyName == customer.CompanyName && c.CompanyName != ""))
-                        .SingleOrDefaultAsync();
+            var customerExist = await _context.Customers.Find(c => c.ClientName == customer.ClientName).SingleOrDefaultAsync();
 
             if (customerExist != null)
             {
@@ -34,7 +30,6 @@ namespace AlvaCleanAPI.Repository
             {
                 ClientName = customer.ClientName,
                 CustomerType = customer.CustomerType,
-                CompanyName = customer.CompanyName,
                 ContactPhone = customer.ContactPhone,
                 Orders = new List<string>()
             };
@@ -80,7 +75,6 @@ namespace AlvaCleanAPI.Repository
 
             var update = Builders<Customer>.Update
                 .Set(c => c.ClientName, customerUpdatedData.ClientName)
-                .Set(c => c.CompanyName, customerUpdatedData.CompanyName)
                 .Set(c => c.ContactPhone, customerUpdatedData.ContactPhone)
                 .Set(c => c.CustomerType, customerUpdatedData.CustomerType);
 

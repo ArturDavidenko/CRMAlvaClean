@@ -12,9 +12,6 @@ namespace AlvaCleanAPI.Models.DTOs
         [BsonElement("ClientName")]
         public string ClientName { get; set; }
 
-        [BsonElement("CompanyName")]
-        public string CompanyName { get; set; }
-
         [BsonElement("ContactPhone")]
         public string ContactPhone { get; set; }
     }
