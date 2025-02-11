@@ -124,7 +124,6 @@ namespace AlvaCleanCRM.Controllers
             {
                 Id = customer.Id,
                 ClientName = customer.ClientName,
-                CompanyName = customer.CompanyName,
                 ContactPhone = customer.ContactPhone,
                 CustomerType = customer.CustomerType
             };
@@ -134,23 +133,13 @@ namespace AlvaCleanCRM.Controllers
 
         public async Task<IActionResult> UpdateCustomer(CustomerToUpdateDto model)
         {
-            //Temporary version BAD CODE !!!!!!
-            if (model.ClientName == null)
-            {
-                model.ClientName = "";
-            }
-            else
-            {
-                model.CompanyName = "";
-            }
-
             var modelToUpdate = new CustomerToUpdateInAPI
             {
                 ClientName = model.ClientName,
-                CompanyName = model.CompanyName,
                 ContactPhone = model.ContactPhone,
                 CustomerType = model.CustomerType
             };
+
             await _customerRepository.UpdateCustomer(modelToUpdate, model.Id);
             return RedirectToAction("GetListOfAllCustomer");
         }

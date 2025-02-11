@@ -12,15 +12,7 @@
             {
                 <div class="card">
                     <div class="card-content">
-
-                        @if (item.ClientName == "")
-                        {
-                            <h3>@item.CompanyName</h3>
-                        }
-                        else
-                        {
-                            <h3>@item.ClientName</h3>
-                        }
+                        <h3>@item.ClientName</h3>
 
                         <p>Type: @item.CustomerType</p>
                         <p>Phone: @item.ContactPhone</p>
@@ -30,6 +22,10 @@
 
                             <a asp-action="EditCustomerPage" asp-route-Id="@item.Id" class="btn btn-warning">
                                 Edit Customer</a>
+
+                            <a asp-action="" asp-route-Id="@item.Id" class="btn btn-success">
+                                Add Order
+                            </a>
 
                             <a asp-action="DeleteCustomer" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">
                                 Delete Customer
@@ -54,6 +50,15 @@
         {
             <div>
                 Customers not exist!
+            </div>
+
+
+            <div class="add-card">
+                <a asp-action="AddNewCustomerPage" asp-controller="Admin">
+                    <div class="card-content" style="color: green">
+                        Add new Customer +
+                    </div>
+                </a>
             </div>
         }
     </div>

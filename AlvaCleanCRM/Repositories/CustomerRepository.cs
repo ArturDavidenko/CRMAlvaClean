@@ -26,17 +26,6 @@ namespace AlvaCleanCRM.Repositories
         public async Task CreateNewCustomer(RegisterCustomerModel model)
         {
             SetUpRequestHeaderAuthorization();
-
-            //Temporary version (BAD CODE!)
-            if (model.ClientName == null)
-            {
-                model.ClientName = "";
-            }
-            else
-            {
-                model.CompanyName = "";
-            }
-
             var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
 
             await _httpClient.PostAsync($"{_customerUrl}/register-new-customer", jsonContent);

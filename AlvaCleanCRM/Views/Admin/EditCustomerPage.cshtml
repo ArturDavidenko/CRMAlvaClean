@@ -14,32 +14,17 @@
     <div class="content-container">
 
         <h2>Edit Customer: </h2>
-        @if (Model.ClientName == "")
-        {
-            <h3>@Model.CompanyName</h3>
-        }
-        else
-        {
-            <h3>@Model.ClientName</h3>
-        }
+
+        <h3>@Model.ClientName</h3>
+        
        
         <form asp-action="UpdateCustomer" method="post" enctype="multipart/form-data">
-            @if (Model.ClientName == "")
-            {
-                <div class="form-group">
-                    <label asp-for="CompanyName" class="control-label"></label>
-                    <input asp-for="CompanyName" />
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
-                </div>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label asp-for="ClientName" class="control-label"></label>
-                    <input asp-for="ClientName" />
-                    <span asp-validation-for="ClientName" class="text-danger"></span>
-                </div>
-            }
+
+            <div class="form-group">
+                <label asp-for="ClientName" class="control-label"></label>
+                <input asp-for="ClientName" />
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="ContactPhone" class="control-label"></label>
