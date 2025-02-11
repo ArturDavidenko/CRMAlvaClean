@@ -1,4 +1,5 @@
 ﻿using AlvaCleanCRM.Models;
+using AlvaCleanCRM.Models.DTOs;
 using AlvaCleanCRM.Models.RegisterModels;
 
 namespace AlvaCleanCRM.Repositories.Interfaces
@@ -10,5 +11,9 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task CreateNewCustomer(RegisterCustomerModel model);
 
         public Task DeleteCustomer(string id);
+
+        public Task<Customer> GetCustomer(string id);
+
+        public Task UpdateCustomer(CustomerToUpdateInAPI model, string id);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
+using AlvaCleanCRM.Models.DTOs;
 
 namespace AlvaCleanCRM.Repositories
 {
@@ -56,10 +57,27 @@ namespace AlvaCleanCRM.Repositories
             return await response.Content.ReadFromJsonAsync<List<Customer>>();
         }
 
+        public async Task<Customer> GetCustomer(string id)
+        {
+            SetUpRequestHeaderAuthorization();
+            var response = await _httpClient.GetAsync($"{_customerUrl}/get-customer/{id}");
+            return await response.Content.ReadFromJsonAsync<Customer>();
+        }
+
+        public async Task UpdateCustomer(CustomerToUpdateInAPI model, string id)
+        {
+            SetUpRequestHeaderAuthorization();
+            var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+
+            await _httpClient.PutAsync($"{_customerUrl}/update-customer/{id}", jsonContent);
+        }
+
         public void SetUpRequestHeaderAuthorization()
         {
             var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
+       
     }
 }
