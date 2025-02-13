@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "employeer,admin")]
+    //[Authorize(Roles = "employeer,admin")]
     public class CustomerController : Controller
     {
         private readonly ICustomerRepository _customerRepository;
@@ -89,6 +89,8 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
 
     }
 }

@@ -15,12 +15,14 @@ namespace AlvaCleanCRM.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
         private readonly string _customerUrl;
+        private readonly string _orderUrl;
        
         public CustomerRepository(IOptions<ApiSettings> apiSettings)
         {
             _httpClient = new HttpClient();
             _httpContextAccessor = new HttpContextAccessor();
             _customerUrl = apiSettings.Value.CustomerUrl;
+            _orderUrl = apiSettings.Value.OrderUrl;
         }
 
         public async Task CreateNewCustomer(RegisterCustomerModel model)
@@ -59,6 +61,13 @@ namespace AlvaCleanCRM.Repositories
             var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
 
             await _httpClient.PutAsync($"{_customerUrl}/update-customer/{id}", jsonContent);
+        }
+
+        public async Task<List<Order>> GetCustomerOrdersList(string customerId)
+        {
+            var response = await _httpClient.GetAsync($"{_orderUrl}/get-all-orders-of-customer/{customerId}");
+
+            return await response.Content.ReadFromJsonAsync<List<Order>>();
         }
 
         public void SetUpRequestHeaderAuthorization()

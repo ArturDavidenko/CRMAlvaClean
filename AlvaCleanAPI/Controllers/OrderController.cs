@@ -138,6 +138,21 @@ namespace AlvaCleanAPI.Controllers
         }
 
 
+        [HttpGet("get-all-orders-of-customer/{customerId}")]
+        public async Task<IActionResult> GetAllOrdersOfCustomer(string customerId)
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersOfCustomer(customerId);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         
     }
 }

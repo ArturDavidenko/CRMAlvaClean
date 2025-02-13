@@ -1,0 +1,63 @@
+﻿@{
+}
+
+@using AlvaCleanCRM.Models.ViewModels
+
+@model CustomerViewModel
+
+
+<link rel="stylesheet" href="~/css/CustomerViewPage.css" asp-append-version="true" />
+
+<div class="profile-container">
+
+    <div class="profile-info">
+        <h2>@Model.ClientName</h2>
+        <p>Customer type: @Model.CustomerType</p>
+    </div>
+
+
+    <div class="orders-section">
+        <h3>Orders</h3>
+        @if (Model.Orders.Count > 0)
+        {
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Orders)
+                    {
+                        <div class="swiper-slide order-card">
+                            <h4>Order: @item.OrderType</h4>
+                            <p>Date: @item.OrderDate</p>
+                            <p>Address: @item.Address</p>
+                            <p>Price type: @item.OrderPriceType</p>
+                            <p>Count of employeers: @item.Employeers.Count</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        }
+        else
+        {
+            <div>
+                <h4>Orders not exist!</h4>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
+}

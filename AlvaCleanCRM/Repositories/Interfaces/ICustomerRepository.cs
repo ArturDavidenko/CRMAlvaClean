@@ -15,5 +15,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task<Customer> GetCustomer(string id);
 
         public Task UpdateCustomer(CustomerToUpdateInAPI model, string id);
+
+        public Task<List<Order>> GetCustomerOrdersList(string customerId);
     }
 }

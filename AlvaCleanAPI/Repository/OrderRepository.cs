@@ -151,5 +151,14 @@ namespace AlvaCleanAPI.Repository
                 .Find(order => order.Employeers.Contains(employeerId))
                 .ToListAsync();
         }
+
+        public async Task<List<Order>> GetAllOrdersOfCustomer(string customerId)
+        {
+            var customer = await _context.Customers.Find(c => c.Id == customerId).SingleOrDefaultAsync();
+
+            var orders =await _context.Orders.Find(o => customer.Orders.Contains(o.Id)).ToListAsync();
+
+            return orders;
+        }
     }
 }

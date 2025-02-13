@@ -143,5 +143,23 @@ namespace AlvaCleanCRM.Controllers
             await _customerRepository.UpdateCustomer(modelToUpdate, model.Id);
             return RedirectToAction("GetListOfAllCustomer");
         }
+
+
+        public async Task<IActionResult> CustomerViewPage(string Id)
+        {
+            var customer =  await _customerRepository.GetCustomer(Id);
+            var ordersOfCustomer = await _customerRepository.GetCustomerOrdersList(Id);
+
+            var viewModel = new CustomerViewModel
+            {
+                Id = customer.Id,
+                ClientName = customer.ClientName,
+                ContactPhone = customer.ContactPhone,
+                CustomerType = customer.CustomerType,
+                Orders = ordersOfCustomer
+            };
+
+            return View(viewModel);
+        }
     }
 }
