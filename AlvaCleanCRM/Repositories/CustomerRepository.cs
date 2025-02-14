@@ -17,10 +17,10 @@ namespace AlvaCleanCRM.Repositories
         private readonly string _customerUrl;
         private readonly string _orderUrl;
        
-        public CustomerRepository(IOptions<ApiSettings> apiSettings)
+        public CustomerRepository(IOptions<ApiSettings> apiSettings, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
-            _httpClient = new HttpClient();
-            _httpContextAccessor = new HttpContextAccessor();
+            _httpClient = httpClientFactory.CreateClient();
+            _httpContextAccessor = httpContextAccessor;
             _customerUrl = apiSettings.Value.CustomerUrl;
             _orderUrl = apiSettings.Value.OrderUrl;
         }
