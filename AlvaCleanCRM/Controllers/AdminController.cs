@@ -13,11 +13,13 @@ namespace AlvaCleanCRM.Controllers
     {
         private readonly IEmployeerRepository _employeerRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public AdminController(IEmployeerRepository employeerRepository, ICustomerRepository customerRepository)
+        public AdminController(IEmployeerRepository employeerRepository, ICustomerRepository customerRepository, IOrderRepository orderRepository)
         {
             _employeerRepository = employeerRepository;
             _customerRepository = customerRepository;
+            _orderRepository = orderRepository;
         }
         public async Task<IActionResult> EmployeersPage()
         {
@@ -160,6 +162,39 @@ namespace AlvaCleanCRM.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> CreateOrderPage()
+        {
+            var listOfCustomers = new List<string>();
+            var customers = await _customerRepository.GetAllCustomers();
+            foreach (var customer in customers)
+            {
+                listOfCustomers.Add(customer.Id);
+            }
+
+            var model = new RegisterOrderModel
+            {
+                CustomerId = listOfCustomers
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> CreateOrder(RegisterOrderModel model)
+        {
+            var customerId = model.CustomerId.First();
+            var orderDto = new RegisterOrderDto
+            {
+                OrderPriceType = model.OrderPriceType,
+                OrderType = model.OrderType,
+                ClientComments = model.ClientComments,
+                Address = model.Address,
+                Status = model.Status
+            };
+            await _orderRepository.CreateOrder(orderDto, customerId);
+
+            return RedirectToAction("AllOrdersPage");
         }
     }
 }

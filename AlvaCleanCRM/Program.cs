@@ -22,6 +22,7 @@ namespace AlvaCleanCRM
       
             builder.Services.AddScoped<IEmployeerRepository, EmployeerRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddHttpClient();
 
             builder.Services.AddHttpContextAccessor();

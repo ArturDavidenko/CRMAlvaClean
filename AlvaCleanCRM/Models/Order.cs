@@ -2,7 +2,7 @@
 {
     public class Order
     {
-        public string? Id { get; set; }
+        public string Id { get; set; }
         public string? CustomerId { get; set; }
         public string? OrderType { get; set; }
         public DateTime OrderDate { get; set; }
