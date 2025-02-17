@@ -5,6 +5,6 @@ namespace AlvaCleanCRM.Repositories.Interfaces
 {
     public interface IOrderRepository
     {
-        public Task CreateOrder(RegisterOrderDto model, string customerId);
+        public Task CreateOrder(RegisterOrderDto model, string customerName);
     }
 }

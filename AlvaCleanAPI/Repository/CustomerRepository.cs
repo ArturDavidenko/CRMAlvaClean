@@ -61,6 +61,11 @@ namespace AlvaCleanAPI.Repository
             return customer;
         }
 
+        public async Task<Customer> GetCustomerByName(string customerName)
+        {
+            return await _context.Customers.Find(c => c.ClientName == customerName).SingleOrDefaultAsync();
+        }
+
         public async Task<List<Customer>> GetCustomersList()
         {
             var customers = await _context.Customers.Find(_ => true).ToListAsync();

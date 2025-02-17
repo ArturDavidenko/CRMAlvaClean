@@ -18,7 +18,7 @@ namespace AlvaCleanAPI.Models
         public string OrderPriceType { get; set; }
 
         [BsonElement("ClientComments")]
-        public string ClientComments { get; set; }
+        public string? ClientComments { get; set; }
 
         //[BsonElement("Employeers")]
         //[BsonRepresentation(BsonType.ObjectId)]

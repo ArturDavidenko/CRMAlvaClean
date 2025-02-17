@@ -170,12 +170,12 @@ namespace AlvaCleanCRM.Controllers
             var customers = await _customerRepository.GetAllCustomers();
             foreach (var customer in customers)
             {
-                listOfCustomers.Add(customer.Id);
+                listOfCustomers.Add(customer.ClientName);
             }
 
             var model = new RegisterOrderModel
             {
-                CustomerId = listOfCustomers
+                CustomerName = listOfCustomers
             };
 
             return View(model);
@@ -183,7 +183,7 @@ namespace AlvaCleanCRM.Controllers
 
         public async Task<IActionResult> CreateOrder(RegisterOrderModel model)
         {
-            var customerId = model.CustomerId.First();
+            var customerName = model.CustomerName.SingleOrDefault();
             var orderDto = new RegisterOrderDto
             {
                 OrderPriceType = model.OrderPriceType,
@@ -192,7 +192,7 @@ namespace AlvaCleanCRM.Controllers
                 Address = model.Address,
                 Status = model.Status
             };
-            await _orderRepository.CreateOrder(orderDto, customerId);
+            await _orderRepository.CreateOrder(orderDto, customerName);
 
             return RedirectToAction("AllOrdersPage");
         }

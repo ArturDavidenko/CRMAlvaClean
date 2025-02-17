@@ -72,16 +72,16 @@ namespace AlvaCleanAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPut("update-customer/{customerId}")]
-        public async Task<IActionResult> UpdateCustomer([FromBody]CustomerDto toUpdateCustomer, string customerId)
+        public async Task<IActionResult> UpdateCustomer([FromBody] CustomerDto toUpdateCustomer, string customerId)
         {
             try
             {
-                await _customerRepository.UpdateCustomer(toUpdateCustomer, customerId); 
+                await _customerRepository.UpdateCustomer(toUpdateCustomer, customerId);
                 return Ok("Customer updated!");
             }
             catch (Exception ex)
@@ -90,6 +90,20 @@ namespace AlvaCleanAPI.Controllers
             }
         }
 
+
+        [HttpGet("get-customer-by-name/{customerName}")]
+        public async Task<IActionResult> GetCustomerByName(string customerName)
+        {
+            try
+            {
+                var customer = await _customerRepository.GetCustomerByName(customerName);
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+        }
 
 
     }

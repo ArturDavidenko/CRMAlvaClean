@@ -6,28 +6,42 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using AlvaCleanCRM.Models.DTOs;
+using AlvaCleanCRM.Models;
+using System.Text.Json.Serialization;
 
 namespace AlvaCleanCRM.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
         private readonly string _orderUrl;
+        private readonly string _customerUrl;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
+
 
         public OrderRepository(IOptions<ApiSettings> apiSettings, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClientFactory.CreateClient();
             _httpContextAccessor = httpContextAccessor;
             _orderUrl = apiSettings.Value.OrderUrl;
+            _customerUrl = apiSettings.Value.CustomerUrl;
         }
 
-        public async Task CreateOrder(RegisterOrderDto model, string customerId)
+        public async Task CreateOrder(RegisterOrderDto model, string customerName)
         {
             SetUpRequestHeaderAuthorization();
-            var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+         
+            var response = await _httpClient.GetAsync($"{_customerUrl}/get-customer-by-name/{customerName}");
+            var customer = await response.Content.ReadFromJsonAsync<Customer>();
 
-            await _httpClient.PostAsync($"{_orderUrl}/create-new-order/{customerId}", jsonContent);
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var jsonContent = new StringContent(JsonSerializer.Serialize(model, options), Encoding.UTF8, "application/json");
+
+            await _httpClient.PostAsync($"{_orderUrl}/create-new-order/{customer.Id}", jsonContent);
         }
 
 

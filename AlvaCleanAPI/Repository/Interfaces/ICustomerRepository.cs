@@ -14,5 +14,7 @@ namespace AlvaCleanAPI.Repository.Interfaces
         public Task UpdateCustomer(CustomerDto customerUpdatedData, string customerId);
 
         public Task CreateCustomer(RegisterCustomerModel customer);
+
+        public Task<Customer> GetCustomerByName(string customerName);
     }
 }
