@@ -196,5 +196,11 @@ namespace AlvaCleanCRM.Controllers
 
             return RedirectToAction("AllOrdersPage");
         }
+
+        public async Task<IActionResult> ShowOrderPage(string Id)
+        {
+            var order = await _orderRepository.GetOrder(Id);
+            return View(order);
+        }
     }
 }

@@ -44,6 +44,12 @@ namespace AlvaCleanCRM.Repositories
             await _httpClient.PostAsync($"{_orderUrl}/create-new-order/{customer.Id}", jsonContent);
         }
 
+        public async Task<Order> GetOrder(string orderId)
+        {
+            SetUpRequestHeaderAuthorization();
+            var response = await _httpClient.GetAsync($"{_orderUrl}/get-order/{orderId}");
+            return await response.Content.ReadFromJsonAsync<Order>();
+        }
 
         public void SetUpRequestHeaderAuthorization()
         {

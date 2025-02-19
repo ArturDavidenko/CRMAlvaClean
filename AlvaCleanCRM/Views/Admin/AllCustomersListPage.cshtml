@@ -16,6 +16,7 @@
 
                         <p>Type: @item.CustomerType</p>
                         <p>Phone: @item.ContactPhone</p>
+                        <p>Count of orders: @item.Orders.Count</p>
 
                         <div class="buttons-container">
                             <a asp-action="CustomerViewPage" asp-route-Id="@item.Id" class="btn btn-primary">View Customer</a>

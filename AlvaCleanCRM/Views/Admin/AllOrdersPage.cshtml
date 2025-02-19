@@ -22,8 +22,8 @@
 
                         Employeers count: @item.Employeers.Count
 
-                        <div class="buttons-container">
-                            <a asp-action="ShowOrder" class="btn btn-primary">View Order</a>
+                        <div class="buttons-container"> 
+                            <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">View Order</a>
 
                             <a asp-action="EditOrderPage" class="btn btn-warning">Edit Order</a>
 
