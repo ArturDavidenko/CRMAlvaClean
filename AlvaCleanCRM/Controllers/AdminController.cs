@@ -202,5 +202,52 @@ namespace AlvaCleanCRM.Controllers
             var order = await _orderRepository.GetOrder(Id);
             return View(order);
         }
+
+        public async Task<IActionResult> EditOrderPage(string Id)
+        {
+
+            var listOfCustomers = new List<string>();
+
+            var order = await _orderRepository.GetOrder(Id);
+
+            var customers = await _customerRepository.GetAllCustomers();
+
+            foreach (var customer in customers)
+            {
+                listOfCustomers.Add(customer.ClientName);
+            }
+
+            var orderToUpdate = new OrderToUpdateModel
+            {
+                Id = order.Id,
+                CustomerId = order.CustomerId,
+                OrderType = order.OrderType,
+                ClientComments= order.ClientComments,
+                Address = order.Address,
+                Status = order.Status,
+                CustomersList = listOfCustomers,
+                OrderPriceType = order.OrderPriceType
+                
+            };
+
+            return View(orderToUpdate);
+        }
+
+       
+        public async Task<IActionResult> UpdateOrder(OrderToUpdateModel model)
+        {
+            var customerName = model.CustomersList.SingleOrDefault();
+            await _orderRepository.UpdateOrder(model, customerName);
+            return RedirectToAction("AllOrdersPage");
+        }
+
+
+        public async Task<IActionResult> DeleteOrder(string Id)
+        {
+            await _orderRepository.DeleteOrder(Id);
+            return RedirectToAction("AllOrdersPage");
+        }
+
+
     }
 }

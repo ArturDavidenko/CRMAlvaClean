@@ -52,12 +52,6 @@ namespace AlvaCleanAPI.Repository
                 updateEmployeer
             );
 
-            var updateOrder = Builders<Order>.Update.Set(o => o.Employeers, new List<string>());
-            await _context.Orders.UpdateOneAsync(
-                o => o.Id == orderId,
-                updateOrder
-            );
-
             var updateCustomer = Builders<Customer>.Update.Pull(c => c.Orders, orderId);
             await _context.Customers.UpdateOneAsync(
                 c => c.Id == orderExist.CustomerId,
@@ -87,11 +81,26 @@ namespace AlvaCleanAPI.Repository
         public async Task UpdateOrder(OrderDto orderUpdatedData, string orderId)
         {
             var currentOrder = await GetOrder(orderId);
-            
-            var filter = Builders<Order>.Filter.Eq(o => o.Id, currentOrder.Id);
 
+            var currentCustomer = await GetCustomer(currentOrder.CustomerId);
+
+            var newCustomer = await GetCustomer(orderUpdatedData.CustomerId);
+
+            if (currentCustomer != newCustomer)
+            {
+                var removeOrderFromCurrentCustomerFilter = Builders<Customer>.Filter.Eq(c => c.Id, currentCustomer.Id);
+                var removeOrderFromCurrentCustomerUpdate = Builders<Customer>.Update.Pull(c => c.Orders, currentOrder.Id);
+                await _context.Customers.UpdateOneAsync(removeOrderFromCurrentCustomerFilter, removeOrderFromCurrentCustomerUpdate);
+
+                var addOrderToNewCustomerFilter = Builders<Customer>.Filter.Eq(c => c.Id, newCustomer.Id);
+                var addOrderToNewCustomerUpdate = Builders<Customer>.Update.Push(c => c.Orders, currentOrder.Id);
+                await _context.Customers.UpdateOneAsync(addOrderToNewCustomerFilter, addOrderToNewCustomerUpdate);
+            }
+
+            var filter = Builders<Order>.Filter.Eq(o => o.Id, currentOrder.Id);
             var update = Builders<Order>.Update
                 .Set(o => o.OrderType, orderUpdatedData.OrderType)
+                .Set(o => o.CustomerId, orderUpdatedData.CustomerId)
                 .Set(o => o.Status, orderUpdatedData.Status)
                 .Set(o => o.Address, orderUpdatedData.Address)
                 .Set(o => o.OrderPriceType, orderUpdatedData.OrderPriceType)
@@ -143,7 +152,10 @@ namespace AlvaCleanAPI.Repository
                 o => o.Id == orderId,
                 updateOrder
             );
+
         }
+
+
 
         public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
         {
@@ -160,5 +172,13 @@ namespace AlvaCleanAPI.Repository
 
             return orders;
         }
+
+        private async Task<Customer> GetCustomer(string customerId)
+        {
+            var filter = Builders<Customer>.Filter.Eq(c => c.Id, customerId);
+            return await _context.Customers.Find(filter).FirstOrDefaultAsync();
+        }
+
+
     }
 }

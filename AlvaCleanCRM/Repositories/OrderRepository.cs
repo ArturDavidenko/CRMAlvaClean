@@ -51,10 +51,48 @@ namespace AlvaCleanCRM.Repositories
             return await response.Content.ReadFromJsonAsync<Order>();
         }
 
+        public async Task UpdateOrder(OrderToUpdateModel model, string customerName)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            var response = await _httpClient.GetAsync($"{_customerUrl}/get-customer-by-name/{customerName}");
+            var customer = await response.Content.ReadFromJsonAsync<Customer>();
+
+            var ordelToUpdate = new OrderToUpdateDto
+            {
+                OrderType = model.OrderType,
+                CustomerId = customer.Id,
+                Status = model.Status,
+                Address = model.Address,
+                OrderPriceType = model.OrderPriceType,
+                ClientComments = model.ClientComments
+            };
+
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var jsonContent = new StringContent(JsonSerializer.Serialize(ordelToUpdate, options), Encoding.UTF8, "application/json");
+
+            await _httpClient.PutAsync($"{_orderUrl}/update-order/{model.Id}", jsonContent);
+
+        }
+
+        public async Task DeleteOrder(string orderId)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            await _httpClient.DeleteAsync($"{_orderUrl}/delete-order/{orderId}");
+            
+        }
+
         public void SetUpRequestHeaderAuthorization()
         {
             var token = _httpContextAccessor?.HttpContext?.Session.GetString("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
+        
     }
 }

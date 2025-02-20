@@ -7,6 +7,9 @@ namespace AlvaCleanAPI.Models.DTOs
         [BsonElement("OrderType")]
         public string OrderType { get; set; }
 
+        [BsonElement("CustomerId")]
+        public string CustomerId { get; set; }
+
         [BsonElement("Status")]
         public string Status { get; set; }
 
@@ -17,6 +20,7 @@ namespace AlvaCleanAPI.Models.DTOs
         public string OrderPriceType { get; set; }
 
         [BsonElement("ClientComments")]
-        public string ClientComments { get; set; }
+        public string? ClientComments { get; set; }
+
     }
 }
