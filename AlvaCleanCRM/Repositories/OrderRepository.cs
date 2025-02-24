@@ -87,8 +87,25 @@ namespace AlvaCleanCRM.Repositories
             
         }
 
+        public async Task AddEmployeerToOrder(string orderId, string employeerId)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            await _httpClient.PostAsync($"{_orderUrl}/add-order-to-employeer/{orderId}/{employeerId}", null);
+            
+        }
+
+        public async Task DeleteOrderFromEmployeer(string orderId, string employeerId)
+        {
+            SetUpRequestHeaderAuthorization();
+
+            await _httpClient.DeleteAsync($"{_orderUrl}/delete-order-from-employeer/{orderId}/{employeerId}");
+        }
+
+        //This one will soon replace by creating handler and set up in DI (BAD CODE!) 
         public void SetUpRequestHeaderAuthorization()
         {
+
             var token = _httpContextAccessor?.HttpContext?.Session.GetString("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }

@@ -22,14 +22,14 @@
 
                         Employeers count: @item.Employeers.Count
 
-                        <div class="buttons-container"> 
-                            <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">View Order</a>
+                        <div class="buttons-container">
+                            <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-primary">View Order</a>
 
-                            <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-warning">Edit Order</a>
+                            <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-warning">Edit Order</a>
 
-                            <a asp-action="AddEmployeersToOrder" class="btn btn-warning">Manage employeers</a>
+                            <a asp-action="AddEmployeersToOrderPage" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-warning">Manage employeers</a>
 
-                            <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">
+                            <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-danger delete-btn">
                                 Delete Order
                                 <span class="progress-bar"></span>
                             </a>

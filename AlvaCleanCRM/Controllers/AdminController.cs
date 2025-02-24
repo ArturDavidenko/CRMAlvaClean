@@ -241,13 +241,40 @@ namespace AlvaCleanCRM.Controllers
             return RedirectToAction("AllOrdersPage");
         }
 
-
         public async Task<IActionResult> DeleteOrder(string Id)
         {
             await _orderRepository.DeleteOrder(Id);
             return RedirectToAction("AllOrdersPage");
         }
 
+        public async Task<IActionResult> AddEmployeersToOrderPage(string Id)
+        {
+            var employeers = await _employeerRepository.GetAllEmployeers();
+
+            var order = await _orderRepository.GetOrder(Id);
+
+            var model = new AddEmployeerToOrderViewModel
+            {
+                Employeers = employeers,
+                Order = order
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> AddEmployeerToOrder(AddEmployeerToOrderViewModel model)
+        {
+            var employeerId = model.SelectedEmployeerId;
+            await _orderRepository.AddEmployeerToOrder(model.Order.Id, employeerId);
+            return RedirectToAction("AllOrdersPage");
+        }
+
+        public async Task<IActionResult> DeleteOrderFromEmployeer(AddEmployeerToOrderViewModel model)
+        {
+            var employeerId = model.SelectedEmployeerId;
+            await _orderRepository.DeleteOrderFromEmployeer(model.Order.Id, employeerId);
+            return RedirectToAction("AllOrdersPage");
+        }
 
     }
 }
