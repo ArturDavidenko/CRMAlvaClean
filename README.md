@@ -31,7 +31,27 @@ Restore the required NuGet packages:
 
 ### 4. Set Up the Database
 
-- Connect MongoDb to solution. Change connection string in appsettingDevelopment.json
+- Connect MongoDB to solution. Change connection string in `appsettings.Development.json` in AlvaCleanAPI folder:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "DataContext": {
+    "MongoUrl": "Write your own connection string",
+    "MongoDbName": "Write your own db name"
+  },
+  "Jwt": {
+    "Key": "MySuperSecretKey1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!",
+    "Issuer": "localhost"
+  }
+
+} 
+```
   
 
 
