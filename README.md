@@ -18,8 +18,8 @@ The system is designed to streamline operations, improve organization, and enhan
 | **API**             | REST API                                      | Standard for communication between services   |
 | **Authentication**  | JWT (JSON Web Tokens)                         | Secure token-based authentication             |
 | **Database**        | MongoDB                                       | NoSQL database for flexible data storage      |
-| **ORM**             | MongoDB Driver (or Entity Framework Core)     | For database interactions                     |
-| **Testing**         | xUnit / NUnit                                 | Unit and integration testing                  |
+| **ORM**             | MongoDB Driver                                | For database interactions                     |
+| **Testing**         | xUnit / NUnit (soon)                          | Unit and integration testing                  |
 | **Logging**         | Serilog (soon)                                | Structured logging                            |
 | **Deployment**      | Docker                                        | Containerization                              |
 
