@@ -14,7 +14,7 @@ The system is designed to streamline operations, improve organization, and enhan
 1. Clone the Repository
    
 First, clone the repository to your local machine using Git:
-''' git clone https://github.com/ArturDavidenko/CRMAlvaClean.git
+''' git clone https://github.com/ArturDavidenko/CRMAlvaClean.git '''
 
 2. Launch Visual Studio.
 
@@ -27,7 +27,7 @@ Restore the required NuGet packages:
 - Right-click on the solution in Solution Explorer and select Restore NuGet Packages.
 
 - Alternatively, run the following command in the Package Manager Console:
-''' dotnet restore
+''' dotnet restore '''
 
 4. Set Up the Database
 
