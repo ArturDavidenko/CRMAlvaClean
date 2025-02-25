@@ -57,8 +57,8 @@ Restore the required NuGet packages:
     }
   },
   "DataContext": {
-    "MongoUrl": "Write your own connection string",  <--------
-    "MongoDbName": "Write your own db name"   <--------         
+    "MongoUrl": "Write your own connection string",
+    "MongoDbName": "Write your own db name"   
   },
   "Jwt": {
     "Key": "MySuperSecretKey1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!",
