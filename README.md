@@ -16,12 +16,12 @@ The system is designed to streamline operations, improve organization, and enhan
 | **Framework**       | .NET 8                                        | Cross-platform, high-performance framework    |
 | **Web Framework**   | ASP.NET                                       | For building web applications and APIs        |
 | **API**             | REST API                                      | Standard for communication between services   |
-| **Authentication**  | JWT (JSON Web Tokens)                         | Secure token-based authentication            |
+| **Authentication**  | JWT (JSON Web Tokens)                         | Secure token-based authentication             |
 | **Database**        | MongoDB                                       | NoSQL database for flexible data storage      |
 | **ORM**             | MongoDB Driver (or Entity Framework Core)     | For database interactions                     |
 | **Testing**         | xUnit / NUnit                                 | Unit and integration testing                  |
-| **Logging**         | Serilog                                       | Structured logging                            |
-| **Deployment**      | Docker, Kubernetes                            | Containerization and orchestration            |
+| **Logging**         | Serilog (soon)                                | Structured logging                            |
+| **Deployment**      | Docker                                        | Containerization                              |
 
 
 ## 🛠️ Installation
