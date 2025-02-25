@@ -11,6 +11,26 @@ The system is designed to streamline operations, improve organization, and enhan
 
 ## 🛠️ Installation
 
+1. Clone the Repository
+   
+First, clone the repository to your local machine using Git:
+''' git clone https://github.com/ArturDavidenko/CRMAlvaClean.git
 
+2. Launch Visual Studio.
+
+Open the solution file (AlvaCleanCRM.sln) from the cloned repository.
+Or open solution as folder.
+
+3. Restore Dependencies
+Restore the required NuGet packages:
+
+- Right-click on the solution in Solution Explorer and select Restore NuGet Packages.
+
+- Alternatively, run the following command in the Package Manager Console:
+''' dotnet restore
+
+4. Set Up the Database
+
+- Connect MongoDb to solution. Change connection string in appsettingDevelopment.json
 
 
