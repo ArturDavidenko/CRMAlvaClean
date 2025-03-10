@@ -70,7 +70,7 @@ Restore the required NuGet packages:
 Jwt space can be not replaced.
 
 Or you can use my database to test my project I left the file “appsettings.Development.json” open. But the possibilities of the database are limited! 
-
+Use login: Davidenko password: admin
 You may also need to change the API connection settings in the client side of the application. 
 For example, you may have different numbers in the local host: 
 ```json
@@ -120,6 +120,8 @@ In Admin project endpoints are set without authorization, if you want to enable 
         }
             .........
 ```
+Or you can use my database to test my project I left the file “appsettings.Development.json” open. But the possibilities of the database are limited! 
+Use login: Davidenko password: admin
 
 Change: //[Authorize(Roles = "admin")] to [Authorize(Roles = "admin")]
   
