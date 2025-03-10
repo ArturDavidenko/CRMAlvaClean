@@ -71,8 +71,10 @@ Jwt space can be not replaced.
 
 Or you can use my database to test my project I left the file “appsettings.Development.json” open. But the possibilities of the database are limited! 
 Use login: Davidenko password: admin
+
 You may also need to change the API connection settings in the client side of the application. 
 For example, you may have different numbers in the local host: 
+
 ```json
 {
   "Logging": {
