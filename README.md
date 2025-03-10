@@ -120,14 +120,13 @@ In Admin project endpoints are set without authorization, if you want to enable 
         }
             .........
 ```
-Or you can use my database to test my project I left the file “appsettings.Development.json” open. But the possibilities of the database are limited! 
-Use login: Davidenko password: admin
-
 Change: //[Authorize(Roles = "admin")] to [Authorize(Roles = "admin")]
-  
+
 You can then go into the profile for that worker and use the app. 
 It is IMPORTANT that the user role is “admin”.
 
+Or you can use my database to test my project I left the file “appsettings.Development.json” open. But the possibilities of the database are limited! 
+Use login: Davidenko password: admin
 
 ### 6. Important information
 
