@@ -57,9 +57,9 @@ namespace AlvaCleanAPI.Repository
                 PhoneNumber = model.PhoneNumber,
                 Role = model.Role,
                 Orders = new List<string>(),
-                ImageId = "679d31a5d600c667d68e84b9"
+                ImageId = "679d31a5d600c667d68e84b9" //BAD CODE temporary version!!!!!!!!
             };
-
+            
             await _context.Employeers.InsertOneAsync(newEmployeer);
         }
 
