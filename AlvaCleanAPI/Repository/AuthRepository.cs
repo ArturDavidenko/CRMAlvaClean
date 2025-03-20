@@ -21,7 +21,7 @@ namespace AlvaCleanAPI.Repository
         {
             var authClaims = new[]
             {
-                new Claim(ClaimTypes.Name, employeer.FirstName),
+                new Claim(ClaimTypes.Name, employeer.LastName),
                 new Claim(ClaimTypes.Role, employeer.Role),
                 new Claim(ClaimTypes.NameIdentifier, employeer.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

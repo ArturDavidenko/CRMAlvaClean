@@ -6,56 +6,55 @@
 <link rel="stylesheet" href="~/css/AllOrdersPage.css" asp-append-version="true" />
 
 <div class="content">
-    <div class="grid-container">
-        @if (Model.Count > 0)
-        {
-            @foreach (var item in Model)
-            {
-                <div class="card">
-                    <div class="card-content">
-
-                        <h3>@item.OrderDate.ToString("dd.MM.yyyy")</h3>
-                        Status: @item.Status<br/>
-                        Price Type: @item.OrderPriceType<br />
-                        Order Type: @item.OrderType<br />
-                        Address: @item.Address<br />
-
-                        Employeers count: @item.Employeers.Count
-
-                        <div class="buttons-container">
-                            <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-primary">View Order</a>
-
-                            <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-warning">Edit Order</a>
-
-                            <a asp-action="AddEmployeersToOrderPage" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-warning">Manage employeers</a>
-
-                            <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id" style="width: 200px;" class="btn btn-danger delete-btn">
-                                Delete Order
-                                <span class="progress-bar"></span>
-                            </a>
-                            
-                        </div>
-                    </div>
-                </div>
-            }
-           
-            <div class="add-card">
-                <a asp-action="CreateOrderPage" asp-controller="Admin">
-                    <div class="card-content" style="color: green">
-                        Create new Order +
-                    </div>
-                </a>
-            </div>
-            
-        }
-        else
-        {
-            <div>
-                Orders not exist!
-            </div>
-        }
+    <div class="container mt-4">
+        <h1>Orders</h1>
+        <table class="table table-bordered table-hover" id="ordersTable">
+            <thead>
+                <tr>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Price Type</th>
+                    <th>Order Type</th>
+                    <th>Address</th>
+                    <th>Employeers Count</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrderDate.ToString("dd.MM.yyyy")</td>
+                            <td>@item.Status</td>
+                            <td>@item.OrderPriceType</td>
+                            <td>@item.OrderType</td>
+                            <td>@item.Address</td>
+                            <td>@item.Employeers.Count</td>
+                            <td>
+                                <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">View Order</a>
+                                <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-warning">Edit Order</a>
+                                <a asp-action="AddEmployeersToOrderPage" asp-route-Id="@item.Id" class="btn btn-warning">Manage employeers</a>
+                                <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">Delete Order
+                                    <span class="progress-bar"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Orders not exist!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a asp-action="CreateOrderPage" asp-controller="Admin" class="btn btn-success">Create new Order +</a>
+        </div>
     </div>
-
 </div>
 
 @section Scripts {

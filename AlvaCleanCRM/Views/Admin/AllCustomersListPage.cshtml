@@ -5,61 +5,50 @@
 <link rel="stylesheet" href="~/css/AllCustomersPage.css" asp-append-version="true"/>
 
 <div class="content">
-    <div class="grid-container">
-        @if (Model.Count > 0)
-        {
-            @foreach (var item in Model)
-            {
-                <div class="card">
-                    <div class="card-content">
-                        <h3>@item.ClientName</h3>
-
-                        <p>Type: @item.CustomerType</p>
-                        <p>Phone: @item.ContactPhone</p>
-                        <p>Count of orders: @item.Orders.Count</p>
-
-                        <div class="buttons-container">
-                            <a asp-action="CustomerViewPage" asp-route-Id="@item.Id" class="btn btn-primary">View Customer</a>
-
-                            <a asp-action="EditCustomerPage" asp-route-Id="@item.Id" class="btn btn-warning">
-                                Edit Customer</a>
-
-                            <a asp-action="DeleteCustomer" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">
-                                Delete Customer
-                                <span class="progress-bar"></span>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-            }
-           
-            <div class="add-card">
-                <a asp-action="AddNewCustomerPage" asp-controller="Admin">
-                    <div class="card-content" style="color: green">
-                        Add new Customer +
-                    </div>
-                </a>
-            </div>
-            
-        }
-        else
-        {
-            <div>
-                Customers not exist!
-            </div>
-
-
-            <div class="add-card">
-                <a asp-action="AddNewCustomerPage" asp-controller="Admin">
-                    <div class="card-content" style="color: green">
-                        Add new Customer +
-                    </div>
-                </a>
-            </div>
-        }
+    <div class="container mt-4">
+        <h1>Customers</h1>
+        <table class="table table-bordered table-hover" id="customersTable">
+            <thead>
+                <tr>
+                    <th>Client Name</th>
+                    <th>Type</th>
+                    <th>Phone</th>
+                    <th>Count of Orders</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ClientName</td>
+                            <td>@item.CustomerType</td>
+                            <td>@item.ContactPhone</td>
+                            <td>@item.Orders.Count</td>
+                            <td>
+                                <a asp-action="CustomerViewPage" asp-route-Id="@item.Id" class="btn btn-primary">View Customer</a>
+                                <a asp-action="EditCustomerPage" asp-route-Id="@item.Id" class="btn btn-warning">Edit Customer</a>
+                                <a asp-action="DeleteCustomer" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">Delete Customer
+                                    <span class="progress-bar"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">Customers not exist!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a asp-action="AddNewCustomerPage" asp-controller="Admin" class="btn btn-success">Add new Customer +</a>
+        </div>
     </div>
-
 </div>
 
 
