@@ -22,5 +22,20 @@ namespace AlvaCleanAPI.Models.DTOs
         [BsonElement("ClientComments")]
         public string? ClientComments { get; set; }
 
+        [BsonElement("OrderStartDate")]
+        public DateTime OrderStartDate { get; set; }
+
+        [BsonElement("Area")]
+        public double Area { get; set; }
+
+        [BsonElement("Hour")]
+        public double Hour { get; set; }
+
+        [BsonElement("CustomerName")]
+        public string CustomerName { get; set; }
+
+        [BsonElement("Price")]
+        public double Price { get; set; }
+
     }
 }

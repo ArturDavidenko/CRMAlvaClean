@@ -24,14 +24,31 @@
                 <div class="swiper-wrapper">
                     @foreach (var item in Model.Orders)
                     {
-                        <div class="swiper-slide order-card">
-                            <h4>Order: @item.OrderType</h4>
-                            <p>Date: @item.OrderDate</p>
-                            <p>Address: @item.Address</p>
-                            <p>Price type: @item.OrderPriceType</p>
-                            <p>Count of employeers: @item.Employeers.Count</p>
-                        </div>
-                    }
+                        @if (Model.CustomerType == "Physical person")
+                        {
+                            <div class="swiper-slide order-card">
+                                <h4>Customer: @item.CustomerName</h4>
+                                <p>Start Date: @item.OrderStartDate</p>
+                                <p>Address: @item.Address</p>
+                                <p>Price type: @item.OrderPriceType</p>
+                                <p>Area: @item.Area</p>
+                                <p>Hours: @item.Hour</p>
+                                <p>Price: @item.Price eur</p>
+                                <p>Count of employeers: @item.Employeers.Count</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="swiper-slide order-card">
+                                <h4>Customer: @item.CustomerName</h4>
+                                <p>Start Date: @item.OrderStartDate</p>
+                                <p>Address: @item.Address</p>
+                                <p>Price type: @item.OrderPriceType</p>
+                                <p>Count of employeers: @item.Employeers.Count</p>
+                            </div>
+                        }
+
+                }
                 </div>
 
                 <div class="swiper-button-prev"></div>

@@ -16,8 +16,8 @@ namespace AlvaCleanAPI.Models
         [BsonElement("OrderType")]
         public string OrderType { get; set; }
 
-        [BsonElement("OrderDate")]
-        public DateTime OrderDate { get; set; }
+        [BsonElement("OrderStartDate")]
+        public DateTime OrderStartDate { get; set; }
 
         [BsonElement("Status")]
         public string Status { get; set; }
@@ -28,8 +28,20 @@ namespace AlvaCleanAPI.Models
         [BsonElement("OrderPriceType")]
         public string OrderPriceType { get; set; }
 
+        [BsonElement("CustomerName")]
+        public string CustomerName { get; set; }
+
         [BsonElement("ClientComments")]
         public string ClientComments { get; set; }
+
+        [BsonElement("Area")]
+        public double Area { get; set; }
+
+        [BsonElement("Hour")]
+        public double Hour { get; set; }
+
+        [BsonElement("Price")]
+        public double Price { get; set; }
 
         [BsonElement("Employeers")]
         [BsonRepresentation(BsonType.ObjectId)]

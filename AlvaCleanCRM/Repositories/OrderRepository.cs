@@ -65,7 +65,12 @@ namespace AlvaCleanCRM.Repositories
                 Status = model.Status,
                 Address = model.Address,
                 OrderPriceType = model.OrderPriceType,
-                ClientComments = model.ClientComments
+                ClientComments = model.ClientComments,
+                Price = model.Price,
+                Area = model.Area,
+                CustomerName = customerName,
+                Hour = model.Hour,
+                OrderStartDate = model.OrderStartDate,
             };
 
             var options = new JsonSerializerOptions

@@ -23,11 +23,15 @@ namespace AlvaCleanAPI.Repository
             {
                 CustomerId = customerId,
                 OrderType = order.OrderType,
-                OrderDate = DateTime.Now,
+                OrderStartDate = order.OrderStartDate.ToLocalTime(),
                 Status = order.Status,
                 Address = order.Address,
                 OrderPriceType = order.OrderPriceType,
                 ClientComments = order.ClientComments,
+                Area = order.Area,
+                Hour = order.Hour,
+                CustomerName = order.CustomerName,
+                Price = order.Price,
                 Employeers = new List<string>()
             };
 
@@ -66,9 +70,7 @@ namespace AlvaCleanAPI.Repository
             var order = await _context.Orders.Find(o => o.Id == orderId).SingleOrDefaultAsync();
 
             if (order == null)
-            {
                 throw new Exception("Order not found!");
-            }
 
             return order;
         }
@@ -104,7 +106,12 @@ namespace AlvaCleanAPI.Repository
                 .Set(o => o.Status, orderUpdatedData.Status)
                 .Set(o => o.Address, orderUpdatedData.Address)
                 .Set(o => o.OrderPriceType, orderUpdatedData.OrderPriceType)
-                .Set(o => o.ClientComments, orderUpdatedData.ClientComments);
+                .Set(o => o.ClientComments, orderUpdatedData.ClientComments)
+                .Set(o => o.OrderStartDate, orderUpdatedData.OrderStartDate.ToLocalTime())
+                .Set(o => o.Area, orderUpdatedData.Area)
+                .Set(o => o.Hour, orderUpdatedData.Hour)
+                .Set(o => o.CustomerName, orderUpdatedData.CustomerName)
+                .Set(o => o.Price, orderUpdatedData.Price);
 
             await _context.Orders.UpdateOneAsync(filter, update);
         }
@@ -117,10 +124,7 @@ namespace AlvaCleanAPI.Repository
                 .FirstOrDefaultAsync();
 
             if (order != null)
-            {
                 throw new Exception("This order already exists!");
-            }
-
 
             var updateEmployeer = Builders<Employeer>.Update.Push(c => c.Orders, orderId);
 
@@ -135,7 +139,6 @@ namespace AlvaCleanAPI.Repository
                 updateOrder
             );
         }
-
 
         public async Task DeleteOrderFromEmployeer(string orderId, string employeerId)
         {
@@ -154,8 +157,6 @@ namespace AlvaCleanAPI.Repository
             );
 
         }
-
-
 
         public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
         {
@@ -178,7 +179,5 @@ namespace AlvaCleanAPI.Repository
             var filter = Builders<Customer>.Filter.Eq(c => c.Id, customerId);
             return await _context.Customers.Find(filter).FirstOrDefaultAsync();
         }
-
-
     }
 }

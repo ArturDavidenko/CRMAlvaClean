@@ -28,10 +28,11 @@
                         @foreach (var item in Model.Orders)
                         {
                             <div class="swiper-slide order-card">
-                                <h4>Order: #@item.Id</h4>
-                                <p>Date: @item.OrderDate</p>
+                                <h4>Customer: @item.CustomerName</h4>
+                                <p>Date: @item.OrderStartDate</p>
                                 <p>Address: @item.Address</p>
-                                <p>Price type: @item.OrderPriceType</p>
+                                <p>Order type: @item.OrderType</p>
+                                <p>Status: @item.Status</p>
                             </div>
                         }
                     </div>

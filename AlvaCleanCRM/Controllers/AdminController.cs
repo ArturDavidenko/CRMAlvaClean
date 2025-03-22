@@ -190,7 +190,12 @@ namespace AlvaCleanCRM.Controllers
                 OrderType = model.OrderType,
                 ClientComments = model.ClientComments,
                 Address = model.Address,
-                Status = model.Status
+                Status = model.Status,
+                Price = model.Price,
+                CustomerName = customerName,
+                Area = model.Area,
+                Hour = model.Hour,
+                OrderStartDate = model.OrderStartDate,
             };
             await _orderRepository.CreateOrder(orderDto, customerName);
 
@@ -226,8 +231,11 @@ namespace AlvaCleanCRM.Controllers
                 Address = order.Address,
                 Status = order.Status,
                 CustomersList = listOfCustomers,
-                OrderPriceType = order.OrderPriceType
-                
+                OrderPriceType = order.OrderPriceType,
+                Price = order.Price,
+                Hour = order.Hour,
+                OrderStartDate = order.OrderStartDate,
+                Area = order.Area
             };
 
             return View(orderToUpdate);

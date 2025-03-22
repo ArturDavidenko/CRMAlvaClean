@@ -14,12 +14,14 @@
         <table class="table table-bordered table-hover" id="ordersTable">
             <thead>
                 <tr>
-                    <th>Order Date</th>
+                    <th>Customer Name</th>
+                    <th>Start Date</th>
                     <th>Status</th>
                     <th>Price Type</th>
                     <th>Order Type</th>
                     <th>Address</th>
-                    <th>Employeers Count</th>
+                    <th>Employeers count</th>
+                    <th>Price</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,12 +31,14 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.OrderDate.ToString("dd.MM.yyyy")</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.OrderStartDate.ToString("dd.MM.yyyy")</td>
                             <td>@item.Status</td>
                             <td>@item.OrderPriceType</td>
                             <td>@item.OrderType</td>
                             <td>@item.Address</td>
                             <td>@item.Employeers.Count</td>
+                            <td>@item.Price eur</td>
                             <td>
                                 <a asp-action="ShowOrder" class="btn btn-primary">View Order</a>
                             </td>

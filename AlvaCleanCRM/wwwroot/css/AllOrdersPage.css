@@ -1,5 +1,5 @@
 ﻿.btn {
-    width: 200px;  
+    width: 170px; 
 }
 
 .buttons-container {
@@ -14,7 +14,6 @@
     overflow: hidden;
     opacity: 0.6;
     cursor: not-allowed;
-    margin-top: 5px;
 }
 
     .delete-btn.active {
