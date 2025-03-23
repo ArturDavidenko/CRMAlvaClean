@@ -5,7 +5,8 @@
 
 <link rel="stylesheet" href="~/css/EmployeerPage.css" asp-append-version="true" />
 
-<div class="content"> 
+<div class="content">
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
     <div class="grid-container">
 
         @if (Model != null)
@@ -94,6 +95,17 @@
                     if (!button.classList.contains("active")) {
                         event.preventDefault();
                     }
+                });
+            });
+        });
+
+
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".grid-container .card").filter(function () {
+                    var cardText = $(this).text().toLowerCase();
+                    $(this).toggle(cardText.indexOf(value) > -1);
                 });
             });
         });
