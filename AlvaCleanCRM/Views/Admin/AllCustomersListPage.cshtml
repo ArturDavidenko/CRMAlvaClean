@@ -7,6 +7,7 @@
 <div class="content">
     <div class="container mt-4">
         <h1>Customers</h1>
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
         <table class="table table-bordered table-hover" id="customersTable">
             <thead>
                 <tr>
@@ -53,6 +54,7 @@
 
 
 @section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const deleteButtons = document.querySelectorAll(".delete-btn");
@@ -82,6 +84,17 @@
                     if (!button.classList.contains("active")) {
                         event.preventDefault(); 
                     }
+                });
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#customersTable tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
         });

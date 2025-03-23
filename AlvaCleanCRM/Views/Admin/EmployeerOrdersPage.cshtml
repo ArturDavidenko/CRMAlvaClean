@@ -11,6 +11,7 @@
 <div class="content">
     <div class="container mt-4">
         <h1>Orders</h1>
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
         <table class="table table-bordered table-hover" id="ordersTable">
             <thead>
                 <tr>
@@ -55,3 +56,20 @@
         </table>
     </div>
 </div>
+
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#ordersTable tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+
+    </script>
+
+}
