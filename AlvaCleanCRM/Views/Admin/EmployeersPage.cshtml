@@ -5,65 +5,74 @@
 
 <link rel="stylesheet" href="~/css/EmployeerPage.css" asp-append-version="true" />
 
-<div class="content">
-    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
-    <div class="grid-container">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        @if (Model != null)
+<div class="employees-page">
+    <div class="page-header">
+        <h1>Employees Management</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search employees...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+
+    <div class="employees-grid">
+        @if (Model != null && Model.Count > 0)
         {
             @foreach (var item in Model)
             {
-                <div class="card">
-                    <a asp-action="GetContentOfEmployeer" asp-area="Admin" asp-route-Id="@item.Id">
-                        <div class="card-content">
-
-                            @if(item.Image != null)
+                <div class="employee-card">
+                    <a asp-action="GetContentOfEmployeer" asp-area="Admin" asp-route-Id="@item.Id" class="profile-link">
+                        <div class="card-header">
+                            @if (item.Image != null)
                             {
-                                <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"></img>
+                                <img class="employee-avatar" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" alt="Employee Photo">
                             }
+                            else
+                            {
+                                <div class="avatar-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            }
+                        </div>
 
-                            <p>
-                                <h3>@item.FirstName<br/> @item.LastName</h3>
-                                Role: @item.Role<br/>
-                                Count of orders:@item.Orders.Count()
-                            </p>
-
-                            <div class="buttons-container">
-                                <a asp-action="EmployeerOrdersPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">
-                                    Show orders
-                                </a>
-
-                                <a asp-action="EditEmployeerPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-warning">
-                                    Edit
-                                </a>
-
-                                <a asp-action="DeleteEmployeer" asp-route-Id="@item.Id" asp-controller="Admin" class="btn btn-danger delete-btn">
-                                    Delete
-                                    <span class="progress-bar"></span>
-                                </a>
+                        <div class="card-body">
+                            <h3 class="employee-name">@item.FirstName @item.LastName</h3>
+                            <div class="employee-info">
+                                <span class="info-label">Role:</span>
+                                <span class="info-value role-@item.Role.ToLower()">@item.Role</span>
                             </div>
-                           
+                            <div class="employee-info">
+                                <span class="info-label">Orders:</span>
+                                <span class="info-value">@item.Orders.Count()</span>
+                            </div>
                         </div>
                     </a>
 
-                    
-
+                    <div class="card-footer">
+                        <a asp-action="EmployeerOrdersPage" asp-controller="Admin" asp-route-Id="@item.Id" class="action-btn btn-orders">
+                            <i class="fas fa-list"></i> Orders
+                        </a>
+                        <a asp-action="EditEmployeerPage" asp-controller="Admin" asp-route-Id="@item.Id" class="action-btn btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="DeleteEmployeer" asp-route-Id="@item.Id" asp-controller="Admin" class="action-btn btn-delete delete-btn">
+                            <i class="fas fa-trash"></i> Delete
+                            <span class="progress-bar"></span>
+                        </a>
+                    </div>
                 </div>
             }
         }
 
-        <div class="add-card">
-            <a asp-action="AddNewEmployeerPage" asp-area="Admin">
-                <div class="card-content" style="color: green">
-                    Add new Employeer +
-                </div>
+        <div class="add-employee-card">
+            <a asp-action="AddNewEmployeerPage" asp-area="Admin" class="add-card-link">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add New Employee</span>
             </a>
         </div>
-
-
     </div>
 </div>
-
 
 @section Scripts {
     <script>

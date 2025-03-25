@@ -6,58 +6,89 @@
 <link rel="stylesheet" href="~/css/AllOrdersPage.css" asp-append-version="true" />
 
 <div class="content">
-    <div class="container mt-4">
-        <h1>Orders</h1>
-        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
-        <table class="table table-bordered table-hover" id="ordersTable">
-            <thead>
-                <tr>
-                    <th>Customer name</th>
-                    <th>Start Date</th>
-                    <th>Status</th>
-                    <th>Price Type</th>
-                    <th>Order Type</th>
-                    <th>Address</th>
-                    <th>Employeers Count</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Count > 0)
-                {
-                    @foreach (var item in Model)
+    <div class="orders-container">
+        <div class="orders-header">
+            <h1 class="orders-title">Orders Management</h1>
+            <div class="orders-actions">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search orders...">
+                <a asp-action="CreateOrderPage" asp-controller="Admin" class="btn btn-create">
+                    <i class="fas fa-plus"></i> Create Order
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="orders-table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Price Type</th>
+                        <th>Type</th>
+                        <th>Address</th>
+                        <th>Workers</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="Customer">@item.CustomerName</td>
+                                <td data-label="Date">@item.OrderStartDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td data-label="Status">
+                                    <span class="status-badge status-@item.Status.ToLower().Replace(" ", "-")">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td data-label="Price Type">@item.OrderPriceType</td>
+                                <td data-label="Type">@item.OrderType</td>
+                                <td data-label="Address">@item.Address</td>
+                                <td data-label="Workers">
+                                    <span class="workers-count">@item.Employeers.Count</span>
+                                </td>
+                                <td data-label="Price">@item.Price.ToString("0.00") €</td>
+                                <td data-label="Actions" class="actions-cell">
+                                    <div class="action-buttons">
+                                        <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id"
+                                           class="btn-action btn-view" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id"
+                                           class="btn-action btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="AddEmployeersToOrderPage" asp-route-Id="@item.Id"
+                                           class="btn-action btn-workers" title="Manage workers">
+                                            <i class="fas fa-users"></i>
+                                        </a>
+                                        <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id"
+                                           class="btn-action btn-delete delete-btn" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                            <span class="progress-bar"></span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.CustomerName</td>
-                            <td>@item.OrderStartDate.ToString("dd.MM.yyyy")</td>
-                            <td>@item.Status</td>
-                            <td>@item.OrderPriceType</td>
-                            <td>@item.OrderType</td>
-                            <td>@item.Address</td>
-                            <td>@item.Employeers.Count</td>
-                            <td>@item.Price eur</td>
-                            <td>
-                                <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-primary">View Order</a>
-                                <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-warning">Edit Order</a>
-                                <a asp-action="AddEmployeersToOrderPage" asp-route-Id="@item.Id" class="btn btn-warning">Manage employeers</a>
-                                <a asp-action="DeleteOrder" asp-controller="Admin" asp-route-Id="@item.Id" class="btn btn-danger delete-btn">Delete Order
-                                    <span class="progress-bar"></span>
-                                </a>
+                            <td colspan="9" class="no-orders">
+                                <div class="empty-state">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <p>No orders found</p>
+                                </div>
                             </td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="7">Orders not exist!</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-end">
-            <a asp-action="CreateOrderPage" asp-controller="Admin" class="btn btn-success">Create new Order +</a>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -65,6 +96,7 @@
 
 
 @section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {

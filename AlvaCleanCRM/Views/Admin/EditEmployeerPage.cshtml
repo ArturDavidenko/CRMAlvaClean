@@ -21,61 +21,114 @@
 
 <link rel="stylesheet" href="~/css/EditEmployeerPage.css" asp-append-version="true" />
 
-<div class="content">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <div class="content-container">
+<div class="edit-employee-page">
+    <div class="edit-container">
+        <div class="edit-header">
+            <h1><i class="fas fa-user-edit"></i> Edit Employee</h1>
+            <div class="employee-name">@Model.FirstName @Model.LastName</div>
+        </div>
 
-        <h2>Edit Employeer: </h2>
-        <h3>@Model.FirstName @Model.LastName</h3>
+        <div class="profile-preview">
+            @if (image != null)
+            {
+                <img class="employee-photo" src="data:image/jpeg;base64,@Convert.ToBase64String(image)" alt="Employee Photo">
+            }
+            else
+            {
+                <div class="photo-placeholder">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            }
+        </div>
 
-        @if (image != null)
-        {
-            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(image)"/>
-        }
-
-        <form asp-action="UpdateEmployeer" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber"/>
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control">
-                    <option value="">Choose role</option>
-                    <option value="manager">Manager</option>
-                    <option value="employeer">Employeer</option>
-                </select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Image" class="control-label">Change or add photo</label>
-                <input asp-for="Image" type="file" class="form-control"/>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-
+        <form asp-action="UpdateEmployeer" method="post" enctype="multipart/form-data" class="edit-form">
             <input asp-for="Id" type="hidden" />
 
-            <div class="form-group button-create">
-                <input type="submit" value="Change" class="btn btn-success" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-label">
+                        <i class="fas fa-user"></i> First Name
+                    </label>
+                    <input asp-for="FirstName" class="form-input" placeholder="Enter first name" />
+                    <span asp-validation-for="FirstName" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label">
+                        <i class="fas fa-user"></i> Last Name
+                    </label>
+                    <input asp-for="LastName" class="form-input" placeholder="Enter last name" />
+                    <span asp-validation-for="LastName" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="form-label">
+                    <i class="fas fa-phone"></i> Phone Number
+                </label>
+                <input asp-for="PhoneNumber" class="form-input" placeholder="Enter phone number" />
+                <span asp-validation-for="PhoneNumber" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Role" class="form-label">
+                    <i class="fas fa-user-tag"></i> Role
+                </label>
+                <select asp-for="Role" class="form-select">
+                    <option value="">Select role</option>
+                    <option value="manager">Manager</option>
+                    <option value="employeer">Employee</option>
+                </select>
+                <span asp-validation-for="Role" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Image" class="form-label">
+                    <i class="fas fa-camera"></i> Profile Photo
+                </label>
+                <div class="file-upload">
+                    <label class="upload-btn">
+                        Choose File
+                        <input asp-for="Image" type="file" class="form-file" />
+                    </label>
+                    <span class="file-name" id="fileName">No file chosen</span>
+                </div>
+                <span asp-validation-for="Image" class="form-error"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a asp-action="DeletePhotoOfEmployeer" asp-area="Admin" asp-route-Id="@Model.Id" class="delete-photo-btn">
+                    <i class="fas fa-trash"></i> Delete Photo
+                </a>
             </div>
         </form>
-        <a asp-action="DeletePhotoOfEmployeer" asp-area="Admin" asp-route-Id="@Model.Id" class="btn btn-danger">Delete Photo</a>
     </div>
-
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Update file name display when file is selected
+            const fileInput = document.querySelector('.form-file');
+            const fileNameDisplay = document.getElementById('fileName');
+
+            fileInput.addEventListener('change', function () {
+                if (this.files && this.files.length > 0) {
+                    fileNameDisplay.textContent = this.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = 'No file chosen';
+                }
+            });
+        });
+    </script>
+}
 

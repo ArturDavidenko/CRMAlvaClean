@@ -7,48 +7,67 @@
 
 
 
-<link rel="stylesheet" href="~/css/EditEmployeerPage.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/EditCustomerPage.css" asp-append-version="true" />
 
-<div class="content">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <div class="content-container">
+<div class="edit-customer-page">
+    <div class="edit-container">
+        <div class="edit-header">
+            <h1>
+                <i class="fas fa-user-edit"></i> Edit Customer
+            </h1>
+            <div class="customer-name">
+                @Model.ClientName
+            </div>
+        </div>
 
-        <h2>Edit Customer: </h2>
-
-        <h3>@Model.ClientName</h3>
-        
-       
-        <form asp-action="UpdateCustomer" method="post" enctype="multipart/form-data">
+        <form asp-action="UpdateCustomer" method="post" enctype="multipart/form-data" class="edit-form">
+            <input asp-for="Id" type="hidden" />
 
             <div class="form-group">
-                <label asp-for="ClientName" class="control-label"></label>
-                <input asp-for="ClientName" />
-                <span asp-validation-for="ClientName" class="text-danger"></span>
+                <label asp-for="ClientName" class="form-label">
+                    <i class="fas fa-user"></i> Client Name
+                </label>
+                <input asp-for="ClientName" class="form-input" placeholder="Enter client name" />
+                <span asp-validation-for="ClientName" class="form-error"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="ContactPhone" class="control-label"></label>
-                <input asp-for="ContactPhone" />
-                <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                <label asp-for="ContactPhone" class="form-label">
+                    <i class="fas fa-phone"></i> Contact Phone
+                </label>
+                <input asp-for="ContactPhone" class="form-input" placeholder="Enter phone number" />
+                <span asp-validation-for="ContactPhone" class="form-error"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="CustomerType" class="control-label"></label>
-                <select asp-for="CustomerType" class="form-control">
+                <label asp-for="CustomerType" class="form-label">
+                    <i class="fas fa-tag"></i> Customer Type
+                </label>
+                <select asp-for="CustomerType" class="form-select">
                     <option value="">Choose type</option>
                     <option value="Physical person">Physical person</option>
                     <option value="Juridical person">Juridical person</option>
                 </select>
-                <span asp-validation-for="CustomerType" class="text-danger"></span>
+                <span asp-validation-for="CustomerType" class="form-error"></span>
             </div>
 
-            <input asp-for="Id" type="hidden" />
-
-            <div class="form-group button-create">
-                <input type="submit" value="Change" class="btn btn-success" />
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a asp-action="GetListOfAllCustomer" asp-controller="Admin" class="cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
             </div>
         </form>
-        
     </div>
-
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

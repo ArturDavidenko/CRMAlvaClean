@@ -7,60 +7,120 @@
 
 <link rel="stylesheet" href="~/css/ContentOfEmployeerPage.css" asp-append-version="true" />
 
-<div class="profile-container">
-    
-    <div class="profile-info">
-        @if (@Model.Employeer.Image != null)
-        {
-            <img style="height: 150px; width: 150px" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Employeer.Image)" alt="Аватар" />
-        }
-        <h2>@Model.Employeer.FirstName @Model.Employeer.LastName</h2>
-        <p>Role: @Model.Employeer.Role</p>
-    </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    
-    <div class="orders-section">
-        <h3>Orders</h3>
-            @if (Model.Orders.Count > 0)
+<div class="profile-page">
+    <!-- Профиль работника -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            @if (Model.Employeer.Image != null)
             {
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        @foreach (var item in Model.Orders)
-                        {
-                            <div class="swiper-slide order-card">
-                                <h4>Customer: @item.CustomerName</h4>
-                                <p>Date: @item.OrderStartDate</p>
-                                <p>Address: @item.Address</p>
-                                <p>Order type: @item.OrderType</p>
-                                <p>Status: @item.Status</p>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
+                <img class="avatar-img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Employeer.Image)" alt="Profile Image" />
             }
             else
             {
-                <div>
-                    <h4>Orders not exist!</h4>
+                <div class="avatar-placeholder">
+                    <i class="fas fa-user"></i>
                 </div>
             }
+        </div>
+
+        <div class="profile-details">
+            <h1 class="profile-name">@Model.Employeer.FirstName @Model.Employeer.LastName</h1>
+            <div class="profile-role">
+                <span class="role-badge">@Model.Employeer.Role</span>
+            </div>
+
+            <div class="profile-contacts">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>@Model.Employeer.PhoneNumber</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция заказов -->
+    <div class="orders-container">
+        <h2 class="section-title">
+            <i class="fas fa-clipboard-list"></i> Assigned Orders
+            <span class="orders-count">@Model.Orders.Count</span>
+        </h2>
+
+        @if (Model.Orders.Count > 0)
+        {
+            <div class="swiper orders-swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.Orders)
+                    {
+                        <div class="swiper-slide">
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <span class="order-status status-@item.Status.ToLower().Replace(" ", "-")">@item.Status</span>
+                                    <span class="order-date">@item.OrderStartDate.ToString("dd.MM.yyyy HH:mm")</span>
+                                </div>
+
+                                <div class="order-body">
+                                    <h3 class="customer-name">@item.CustomerName</h3>
+                                    <p class="order-info">
+                                        <i class="fas fa-map-marker-alt"></i> @item.Address
+                                    </p>
+                                    <p class="order-info">
+                                        <i class="fas fa-tag"></i> @item.OrderType
+                                    </p>
+                                    <p class="order-info">
+                                        <i class="fas fa-users"></i> Workers: @item.Employeers.Count
+                                    </p>
+                                </div>
+
+                                <div class="order-footer">
+                                    <a asp-action="ShowOrderPage" asp-controller="Admin" asp-route-Id ="@item.Id" class="btn-view">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        }
+        else
+        {
+            <div class="empty-orders">
+                <i class="fas fa-inbox"></i>
+                <p>No orders assigned yet</p>
+            </div>
+        }
     </div>
 </div>
 
 @section Scripts{
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 3,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
+        document.addEventListener('DOMContentLoaded', function () {
+            var swiper = new Swiper('.orders-swiper', {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    992: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
         });
     </script>
 }

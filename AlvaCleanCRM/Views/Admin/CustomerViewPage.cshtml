@@ -8,47 +8,78 @@
 
 <link rel="stylesheet" href="~/css/CustomerViewPage.css" asp-append-version="true" />
 
-<div class="profile-container">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <div class="profile-info">
-        <h2>@Model.ClientName</h2>
-        <p>Customer type: @Model.CustomerType</p>
+<div class="customer-profile">
+    <!-- Шапка профиля -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <div class="avatar-icon">
+                @if (Model.CustomerType == "Physical person")
+                {
+                    <i class="fas fa-user-tie"></i>
+                }
+                else
+                {
+                    <i class="fas fa-building"></i>
+                }
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <h1>@Model.ClientName</h1>
+            <div class="customer-type">
+                <span class="type-badge">@Model.CustomerType</span>
+            </div>
+
+            <div class="customer-stats">
+                <div class="stat-item">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>@Model.Orders.Count orders</span>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Секция заказов -->
+    <div class="orders-container">
+        <h2 class="section-title">
+            <i class="fas fa-clipboard-list"></i> Customer Orders
+        </h2>
 
-    <div class="orders-section">
-        <h3>Orders</h3>
         @if (Model.Orders.Count > 0)
         {
-            <div class="swiper mySwiper">
+            <div class="swiper orders-swiper">
                 <div class="swiper-wrapper">
                     @foreach (var item in Model.Orders)
                     {
-                        @if (Model.CustomerType == "Physical person")
-                        {
-                            <div class="swiper-slide order-card">
-                                <h4>Customer: @item.CustomerName</h4>
-                                <p>Start Date: @item.OrderStartDate</p>
-                                <p>Address: @item.Address</p>
-                                <p>Price type: @item.OrderPriceType</p>
-                                <p>Area: @item.Area</p>
-                                <p>Hours: @item.Hour</p>
-                                <p>Price: @item.Price eur</p>
-                                <p>Count of employeers: @item.Employeers.Count</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="swiper-slide order-card">
-                                <h4>Customer: @item.CustomerName</h4>
-                                <p>Start Date: @item.OrderStartDate</p>
-                                <p>Address: @item.Address</p>
-                                <p>Price type: @item.OrderPriceType</p>
-                                <p>Count of employeers: @item.Employeers.Count</p>
-                            </div>
-                        }
+                        <div class="swiper-slide">
+                            <div class="order-card @(Model.CustomerType == "Physical person" ? "physical" : "juridical")">
+                                <div class="order-header">
+                                    <span class="order-date">@item.OrderStartDate.ToString("dd.MM.yyyy")</span>
+                                    <span class="order-price">@item.Price.ToString("0.00") €</span>
+                                </div>
 
-                }
+                                <div class="order-body">
+                                    <h3 class="order-title">Order #@item.Id</h3>
+
+                                    <div class="order-details">
+                                        <p><i class="fas fa-map-marker-alt"></i> @item.Address</p>
+                                        <p><i class="fas fa-tag"></i> @item.OrderPriceType</p>
+
+                                        @if (Model.CustomerType == "Physical person")
+                                        {
+                                            <p><i class="fas fa-ruler-combined"></i> Area: @item.Area m²</p>
+                                            <p><i class="fas fa-clock"></i> Hours: @item.Hour</p>
+                                        }
+
+                                        <p><i class="fas fa-users"></i> Workers: @item.Employeers.Count</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div class="swiper-button-prev"></div>
@@ -57,24 +88,37 @@
         }
         else
         {
-            <div>
-                <h4>Orders not exist!</h4>
+            <div class="empty-orders">
+                <i class="fas fa-inbox"></i>
+                <p>No orders found</p>
             </div>
         }
     </div>
 </div>
 
 @section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 3,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
+        document.addEventListener('DOMContentLoaded', function () {
+            var swiper = new Swiper('.orders-swiper', {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    992: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
         });
     </script>
 }

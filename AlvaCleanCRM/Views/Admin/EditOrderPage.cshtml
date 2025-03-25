@@ -5,103 +5,136 @@
 
 @model OrderToUpdateModel
 
-<link rel="stylesheet" href="~/css/AddNewOrderPage.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/EditOrderPage.css" asp-append-version="true" />
 
-<div class="content">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <div class="content-container">
+<div class="edit-order-page">
+    <div class="form-container">
+        <div class="form-header">
+            <h1><i class="fas fa-edit"></i> Update Order</h1>
+            <p class="form-description">Modify the order details below</p>
+        </div>
 
-        <h3>Update order</h3>
-
-        <form asp-action="UpdateOrder" method="post" enctype="multipart/form-data">
-
-            <div class="form-group">
-                <label asp-for="CustomersList" class="control-label"></label>
-                <select asp-for="CustomersList" class="form-control">
-                    @foreach (var customer in Model.CustomersList)
-                    {
-                        <option value="@customer">@customer</option>
-                    }
-                </select>
-                <span asp-validation-for="CustomersList" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="OrderPriceType" class="control-label"></label>
-                <select asp-for="OrderPriceType" class="form-control">
-                    <option value="">Choose price type of order</option>
-                    <option value="Per hour">Per hour</option>
-                    <option value="Fixed">Fixed</option>
-                </select>
-                <span asp-validation-for="OrderPriceType" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="OrderType" class="control-label"></label>
-                <select asp-for="OrderType" class="form-control">
-                    <option value="">Choose type of order</option>
-                    <option value="Object cleaning">Object cleaning</option>
-                    <option value="Service cleaning">Service cleaning</option>
-                </select>
-                <span asp-validation-for="OrderType" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="">Choose status</option>
-                    <option value="In process">In process</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Canceled">Canceled</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" type="number" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Hour" class="control-label"></label>
-                <input asp-for="Hour" type="number" />
-                <span asp-validation-for="Hour" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Area" class="control-label"></label>
-                <input asp-for="Area" type="number" />
-                <span asp-validation-for="Area" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="OrderStartDate" class="control-label"></label>
-                <input asp-for="OrderStartDate" type="datetime-local" class="form-control" />
-                <span asp-validation-for="OrderStartDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ClientComments" class="control-label"></label>
-                <input asp-for="ClientComments" />
-                <span asp-validation-for="ClientComments" class="text-danger"></span>
-            </div>
-
+        <form asp-action="UpdateOrder" method="post" enctype="multipart/form-data" class="order-form">
             <input asp-for="Id" type="hidden" />
 
-            <div class="form-group button-create">
-                <input type="submit" value="Update" class="btn btn-success" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="CustomersList" class="form-label">
+                        <i class="fas fa-user"></i> Customer
+                    </label>
+                    <select asp-for="CustomersList" class="form-select">
+                        @foreach (var customer in Model.CustomersList)
+                        {
+                            <option value="@customer">@customer</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CustomersList" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Status" class="form-label">
+                        <i class="fas fa-info-circle"></i> Status
+                    </label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="">Select status</option>
+                        <option value="In process">In process</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Canceled">Canceled</option>
+                    </select>
+                    <span asp-validation-for="Status" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="OrderPriceType" class="form-label">
+                        <i class="fas fa-tag"></i> Price Type
+                    </label>
+                    <select asp-for="OrderPriceType" class="form-select">
+                        <option value="">Select price type</option>
+                        <option value="Per hour">Per hour</option>
+                        <option value="Fixed">Fixed</option>
+                    </select>
+                    <span asp-validation-for="OrderPriceType" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="OrderType" class="form-label">
+                        <i class="fas fa-broom"></i> Order Type
+                    </label>
+                    <select asp-for="OrderType" class="form-select">
+                        <option value="">Select order type</option>
+                        <option value="Object cleaning">Object cleaning</option>
+                        <option value="Service cleaning">Service cleaning</option>
+                    </select>
+                    <span asp-validation-for="OrderType" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Address
+                </label>
+                <input asp-for="Address" class="form-input" placeholder="Enter address" />
+                <span asp-validation-for="Address" class="form-error"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Price" class="form-label">
+                        <i class="fas fa-euro-sign"></i> Price
+                    </label>
+                    <input asp-for="Price" type="number" class="form-input" placeholder="Enter price" />
+                    <span asp-validation-for="Price" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Hour" class="form-label">
+                        <i class="fas fa-clock"></i> Hours
+                    </label>
+                    <input asp-for="Hour" type="number" class="form-input" placeholder="Enter hours" />
+                    <span asp-validation-for="Hour" class="form-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Area" class="form-label">
+                        <i class="fas fa-ruler-combined"></i> Area (m²)
+                    </label>
+                    <input asp-for="Area" type="number" class="form-input" placeholder="Enter area" />
+                    <span asp-validation-for="Area" class="form-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="OrderStartDate" class="form-label">
+                    <i class="fas fa-calendar-alt"></i> Start Date & Time
+                </label>
+                <input asp-for="OrderStartDate" type="datetime-local" class="form-input" />
+                <span asp-validation-for="OrderStartDate" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ClientComments" class="form-label">
+                    <i class="fas fa-comment"></i> Client Comments
+                </label>
+                <textarea asp-for="ClientComments" class="form-textarea" placeholder="Enter client comments"></textarea>
+                <span asp-validation-for="ClientComments" class="form-error"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Update Order
+                </button>
             </div>
         </form>
     </div>
-
 </div>
 
 
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

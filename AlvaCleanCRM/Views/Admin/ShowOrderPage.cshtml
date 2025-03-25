@@ -3,10 +3,89 @@
 
 @model Order
 
-<div>
-    <div>
-        <h3>@Model.OrderType</h3>
+<link rel="stylesheet" href="~/css/ShowOrderPage.css" asp-append-version="true" />
+<div class="order-details-container">
+    <div class="order-header">
+        <div class="order-id">Order #@Model.Id</div>
+        <div class="order-status @GetStatusClass(Model.Status)">@Model.Status</div>
+    </div>
+    
+    <div class="order-body">
+        <div class="info-section">
+            <div class="info-title">Order Information</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Customer</span>
+                    <span class="info-value">@Model.CustomerName</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Order Type</span>
+                    <span class="info-value">@Model.OrderType</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Start Date</span>
+                    <span class="info-value">@Model.OrderStartDate.ToString("dd MMMM yyyy HH:mm:ss")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Address</span>
+                    <span class="info-value">@Model.Address</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Price Type</span>
+                    <span class="info-value">@Model.OrderPriceType</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Assigned Workers</span>
+                    <span class="info-value">@Model.Employeers?.Count()</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">Work Details</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Area</span>
+                    <span class="info-value">@Model.Area m²</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estimated Hours</span>
+                    <span class="info-value">@Model.Hour hours</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="price-display">
+            <div>
+                <div class="info-label">Total Price</div>
+                <div class="price-amount">@Model.Price.ToString("C")</div>
+            </div>
+        </div>
+        
+        @if (!string.IsNullOrEmpty(Model.ClientComments))
+        {
+            <div class="comments-section">
+                <div class="info-title">Client Comments</div>
+                <div class="comments-text">@Model.ClientComments</div>
+            </div>
+        }
+        
+        @if (User.Identity.IsAuthenticated && User.IsInRole("admin") && User.Identity.IsAuthenticated || User.IsInRole("manager"))
+        {
+            <div class="action-buttons">
+                <a asp-action="EditOrderPage" asp-controller="Admin" asp-route-id="@Model.Id" class="btn btn-primary">Edit Order</a>
+            </div>
+        }
 
-        <p>Address: @Model.Address</p>
     </div>
 </div>
+
+
+@functions {
+    string GetStatusClass(string status)
+    {
+        if (status == "Completed") return "status-completed";
+        if (status == "In Progress") return "status-in-progress";
+        return "";
+    }
+}

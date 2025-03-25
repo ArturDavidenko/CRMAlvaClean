@@ -13,7 +13,7 @@
 }
 
 /* Page Layout */
-.add-customer-page {
+.edit-customer-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,23 +22,23 @@
     padding: 2rem;
 }
 
-/* Form Container */
-.form-container {
+/* Edit Container */
+.edit-container {
     background: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     padding: 2.5rem;
 }
 
-/* Form Header */
-.form-header {
+/* Header */
+.edit-header {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-    .form-header h1 {
+    .edit-header h1 {
         color: var(--dark-color);
         font-size: 1.8rem;
         margin: 0 0 0.5rem 0;
@@ -48,13 +48,14 @@
         gap: 0.75rem;
     }
 
-.form-description {
-    color: var(--gray-color);
-    margin: 0;
+.customer-name {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    font-weight: 500;
 }
 
 /* Form Styles */
-.customer-form {
+.edit-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -97,40 +98,67 @@
     margin-top: 0.25rem;
 }
 
-/* Submit Button */
+/* Buttons */
 .form-actions {
+    display: flex;
+    gap: 1rem;
     margin-top: 1.5rem;
 }
 
-.submit-btn {
-    width: 100%;
+.submit-btn,
+.cancel-btn {
     padding: 0.75rem 1.5rem;
-    background-color: var(--success-color);
-    color: white;
-    border: none;
     border-radius: var(--border-radius);
     font-weight: 500;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
     transition: var(--transition);
     cursor: pointer;
+    text-decoration: none;
     font-size: 1rem;
 }
 
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
     .submit-btn:hover {
-        background-color: #3aa8d8;
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+.cancel-btn {
+    background-color: white;
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+    .cancel-btn:hover {
+        background-color: #fff5f5;
         transform: translateY(-2px);
     }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .add-customer-page {
+@@media (max-width: 768px) {
+    .edit-customer-page {
         padding: 1rem;
     }
 
-    .form-container {
+    .edit-container {
         padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .submit-btn,
+    .cancel-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
