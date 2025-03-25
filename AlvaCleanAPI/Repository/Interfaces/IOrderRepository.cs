@@ -26,5 +26,7 @@ namespace AlvaCleanAPI.Repository.Interfaces
         public Task<List<Order>> GetListOfAllCompletedOrders();
 
         public Task<List<Order>> GetListOfAllCompletedOrdersOfEmployeer(string employeerId);
+
+        public Task<List<Order>> GetListOfAllCompletedOrdersOfCustomer(string customerId);
     }
 }
