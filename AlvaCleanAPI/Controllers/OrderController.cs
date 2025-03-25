@@ -152,6 +152,33 @@ namespace AlvaCleanAPI.Controllers
             }
         }
 
+        [HttpGet("get-all-completed-orders")]
+        public async Task<IActionResult> GetAllCompletedOrders()
+        {
+            try
+            {
+                var orders = await _orderRepository.GetListOfAllCompletedOrders();
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-all-completed-orders-of-employeer/{employeerId}")]
+        public async Task<IActionResult> GetAllCompletedOrdersOfEmployeer(string employeerId)
+        {
+            try
+            {
+                var orders = await _orderRepository.GetListOfAllCompletedOrdersOfEmployeer(employeerId);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         
     }

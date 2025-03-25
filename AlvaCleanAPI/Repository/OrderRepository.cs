@@ -179,5 +179,21 @@ namespace AlvaCleanAPI.Repository
             var filter = Builders<Customer>.Filter.Eq(c => c.Id, customerId);
             return await _context.Customers.Find(filter).FirstOrDefaultAsync();
         }
+
+        public async Task<List<Order>> GetListOfAllCompletedOrders()
+        {
+            var filter = Builders<Order>.Filter.Eq(o => o.Status, "Completed");
+            return await _context.Orders.Find(filter).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetListOfAllCompletedOrdersOfEmployeer(string employeerId)
+        {
+            var filter = Builders<Order>.Filter.And(
+                 Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
+                 Builders<Order>.Filter.AnyEq(o => o.Employeers, employeerId)
+            );
+
+            return await _context.Orders.Find(filter).ToListAsync();
+        }
     }
 }
