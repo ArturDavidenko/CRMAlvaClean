@@ -1,7 +1,9 @@
 ﻿@{
 }
 
-@model Employeer
+@using AlvaCleanCRM.Models.ViewModels
+
+@model ProfileViewModel 
 
 
 <link rel="stylesheet" href="~/css/EmployeerProfilePage.css" asp-append-version="true" />
@@ -11,9 +13,9 @@
 <div class="profile-container">
     <div class="profile-header">
         <div class="profile-image-container">
-            @if (Model.Image != null)
+            @if (Model.Employeer.Image != null)
             {
-                <img class="profile-image" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Image)" alt="Profile Photo" />
+                <img class="profile-image" src="data:image/jpeg;base64,@Convert.ToBase64String(@Model.Employeer.Image)" alt="Profile Photo" />
             }
             else
             {
@@ -24,7 +26,7 @@
             @if (User.Identity.IsAuthenticated && User.IsInRole("admin") && User.Identity.IsAuthenticated || User.IsInRole("manager"))
             {
                 <div class="profile-actions">
-                    <a asp-action="EditEmployeerPage" asp-controller="Admin" asp-route-Id="@Model.Id" class="btn-edit">
+                    <a asp-action="EditEmployeerPage" asp-controller="Admin" asp-route-Id="@Model.Employeer.Id" class="btn-edit">
                         <i class="fas fa-edit"></i> Edit Profile
                     </a>
                 </div>
@@ -32,15 +34,15 @@
         </div>
 
         <div class="profile-info">
-            <h1 class="profile-name">@Model.FirstName @Model.LastName</h1>
+            <h1 class="profile-name">@Model.Employeer.FirstName @Model.Employeer.LastName</h1>
             <div class="profile-role">
-                <span class="role-badge">@Model.Role</span>
+                <span class="role-badge">@Model.Employeer.Role</span>
             </div>
 
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
-                    <span>@Model.PhoneNumber</span>
+                    <span>@Model.Employeer.PhoneNumber</span>
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
     <div class="profile-content">
         <div class="stats-section">
             <div class="stat-card">
-                <div class="stat-value">@Model.Orders?.Count ?? 0</div>
+                <div class="stat-value">@Model.Orders?.Count</div>
                 <div class="stat-label">Total Orders</div>
             </div>
             <div class="stat-card">
@@ -69,12 +71,80 @@
 
             @if (Model.Orders?.Count > 0)
             {
+                
                 <div class="orders-list">
-                    <!-- Здесь можно добавить список заказов -->
-                    <div class="empty-orders">
-                        <p>Order list functionality coming soon</p>
-                    </div>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4 class="order-title">
+                                        @order.OrderType
+                                    </h4>
+                                    <p class="order-customer">
+                                        <i class="fas fa-user" style="margin-right: 0.5rem; color: var(--primary-color);"></i>
+                                        @order.CustomerName
+                                    </p>
+                                    <p class="order-date">
+                                        <i class="far fa-calendar-alt" style="margin-right: 0.5rem;"></i>
+                                        @order.OrderStartDate.ToString("dd.MM.yyyy HH:mm")
+                                    </p>
+                                </div>
+
+                                <div class="order-status-container">
+                                    <span class="order-status @GetStatusClass(order.Status)">
+                                        @order.Status
+                                    </span>
+                                    <p class="order-price">
+                                        @order.Price.ToString("N2") €
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="order-details-grid">
+                                <div class="order-detail-item">
+                                    <p class="order-detail-label">Area</p>
+                                    <p class="order-detail-value">@order.Area.ToString("N2") m²</p>
+                                </div>
+                                <div class="order-detail-item">
+                                    <p class="order-detail-label">Hours</p>
+                                    <p class="order-detail-value">@order.Hour.ToString("N1") h</p>
+                                </div>
+                                <div class="order-detail-item">
+                                    <p class="order-detail-label">Team</p>
+                                    <p class="order-detail-value">
+                                        @order.Employeers?.Count @(order.Employeers?.Count == 1 ? "person" : "people")
+                                    </p>
+                                </div>
+                                <div class="order-detail-item">
+                                    <p class="order-detail-label">Price Type</p>
+                                    <p class="order-detail-value">@order.OrderPriceType</p>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(order.ClientComments))
+                            {
+                                <div class="order-comments">
+                                    <p class="comments-title">
+                                        <i class="fas fa-comment-alt" style="margin-right: 0.5rem;"></i>Client Comments
+                                    </p>
+                                    <p class="comments-text">@order.ClientComments</p>
+                                </div>
+                            }
+
+                            <div class="order-footer">
+                                <div>
+                                    <p class="order-address">
+                                        <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i>
+                                        @order.Address
+                                    </p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    }
                 </div>
+                
             }
             else
             {
@@ -85,10 +155,32 @@
             }
 
             <div class="view-all">
-                <a asp-action="EmployeerOrdersPage" asp-controller="Admin" asp-route-Id="@Model.Id" class="btn-view-all">
+                <a asp-action="EmployeerOrdersPage" asp-controller="Admin" asp-route-Id="@Model.Employeer.Id" class="btn-view-all">
                     View All Orders <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+
+@functions {
+    string GetStatusClass(string status)
+    {
+        switch (status.ToLower())
+        {
+            case "completed":
+                return "status-completed";
+            case "in process":
+            case "processing":
+                return "status-processing";
+            case "started":
+                return "status-started";
+            case "cancelled":
+            case "rejected":
+                return "status-cancelled";
+            default:
+                return "";
+        }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using AlvaCleanCRM.Repositories.Interfaces;
+﻿using AlvaCleanCRM.Models.ViewModels;
+using AlvaCleanCRM.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlvaCleanCRM.Controllers
@@ -24,7 +25,15 @@ namespace AlvaCleanCRM.Controllers
         {
             var employeer = await _employeerRepository.GetEmployeer(employeerId);
 
-            return View("EmployeerProfile", employeer);
+            var orders = await _employeerRepository.GetAllOrdersOfEmployeer(employeerId);
+
+            var viewModel = new ProfileViewModel
+            {
+                Employeer = employeer,
+                Orders = orders
+            };
+
+            return View("EmployeerProfile", viewModel);
         }
 
 
