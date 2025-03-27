@@ -187,7 +187,9 @@ namespace AlvaCleanAPI.Repository
                  Builders<Order>.Filter.Eq(o => o.Status, "Canceled")
             );
 
-            return await _context.Orders.Find(filter).ToListAsync();
+            var sort = Builders<Order>.Sort.Descending(o => o.OrderStartDate);
+
+            return await _context.Orders.Find(filter).Sort(sort).ToListAsync();
         }
 
         public async Task<List<Order>> GetListOfAllCompletedOrdersOfEmployeer(string employeerId)
@@ -201,7 +203,9 @@ namespace AlvaCleanAPI.Repository
 
             var combinedFilter = Builders<Order>.Filter.And(statusFilter, employeerFilter);
 
-            return await _context.Orders.Find(combinedFilter).ToListAsync();
+            var sort = Builders<Order>.Sort.Descending(o => o.OrderStartDate);
+
+            return await _context.Orders.Find(combinedFilter).Sort(sort).ToListAsync();
         }
 
         public async Task<List<Order>> GetListOfAllCompletedOrdersOfCustomer(string customerId)
@@ -215,7 +219,9 @@ namespace AlvaCleanAPI.Repository
 
             var combinedFilter = Builders<Order>.Filter.And(statusFilter, customerFilter);
 
-            return await _context.Orders.Find(combinedFilter).ToListAsync();
+            var sort = Builders<Order>.Sort.Descending(o => o.OrderStartDate);
+
+            return await _context.Orders.Find(combinedFilter).Sort(sort).ToListAsync();
         }
     }
 }
