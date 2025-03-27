@@ -182,28 +182,40 @@ namespace AlvaCleanAPI.Repository
 
         public async Task<List<Order>> GetListOfAllCompletedOrders()
         {
-            var filter = Builders<Order>.Filter.Eq(o => o.Status, "Completed");
+            var filter = Builders<Order>.Filter.Or(
+                 Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
+                 Builders<Order>.Filter.Eq(o => o.Status, "Canceled")
+            );
+
             return await _context.Orders.Find(filter).ToListAsync();
         }
 
         public async Task<List<Order>> GetListOfAllCompletedOrdersOfEmployeer(string employeerId)
         {
-            var filter = Builders<Order>.Filter.And(
-                 Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
-                 Builders<Order>.Filter.AnyEq(o => o.Employeers, employeerId)
+            var statusFilter = Builders<Order>.Filter.Or(
+                Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
+                Builders<Order>.Filter.Eq(o => o.Status, "Canceled")
             );
 
-            return await _context.Orders.Find(filter).ToListAsync();
+            var employeerFilter = Builders<Order>.Filter.AnyEq(o => o.Employeers, employeerId);
+
+            var combinedFilter = Builders<Order>.Filter.And(statusFilter, employeerFilter);
+
+            return await _context.Orders.Find(combinedFilter).ToListAsync();
         }
 
         public async Task<List<Order>> GetListOfAllCompletedOrdersOfCustomer(string customerId)
         {
-            var filter = Builders<Order>.Filter.And(
-                 Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
-                 Builders<Order>.Filter.Eq(o => o.CustomerId, customerId)
+            var statusFilter = Builders<Order>.Filter.Or(
+                Builders<Order>.Filter.Eq(o => o.Status, "Completed"),
+                Builders<Order>.Filter.Eq(o => o.Status, "Canceled")
             );
 
-            return await _context.Orders.Find(filter).ToListAsync();
+            var customerFilter = Builders<Order>.Filter.Eq(o => o.CustomerId, customerId);
+
+            var combinedFilter = Builders<Order>.Filter.And(statusFilter, customerFilter);
+
+            return await _context.Orders.Find(combinedFilter).ToListAsync();
         }
     }
 }
