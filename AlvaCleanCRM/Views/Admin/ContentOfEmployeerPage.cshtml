@@ -50,6 +50,12 @@
 
         @if (Model.Orders.Count > 0)
         {
+            <div class="view-all">
+                <a asp-action="HistoryOfAllOrdersOfEmployeerPage" asp-controller="Employeer"
+                   asp-route-Id="@Model.Employeer.Id" class="btn-view-all">
+                    View history of orders<i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
             <div class="swiper orders-swiper">
                 <div class="swiper-wrapper">
                     @foreach (var item in Model.Orders)

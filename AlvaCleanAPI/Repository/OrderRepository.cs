@@ -77,7 +77,8 @@ namespace AlvaCleanAPI.Repository
 
         public async Task<List<Order>> GetOrdersList()
         {
-            return await _context.Orders.Find(_ => true).ToListAsync();
+            var filter = Builders<Order>.Filter.Eq(o => o.Status, "In process");
+            return await _context.Orders.Find(filter).ToListAsync();
         }
 
         public async Task UpdateOrder(OrderDto orderUpdatedData, string orderId)
@@ -161,15 +162,27 @@ namespace AlvaCleanAPI.Repository
         public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
         {
             return await _context.Orders
-                .Find(order => order.Employeers.Contains(employeerId))
-                .ToListAsync();
+                 .Find(order =>
+                     (order.Status == "In process")
+                     && order.Employeers.Contains(employeerId)
+                 )
+                 .ToListAsync();
         }
 
         public async Task<List<Order>> GetAllOrdersOfCustomer(string customerId)
         {
-            var customer = await _context.Customers.Find(c => c.Id == customerId).SingleOrDefaultAsync();
+            var customer = await _context.Customers
+                .Find(c => c.Id == customerId)
+                .SingleOrDefaultAsync();
 
-            var orders =await _context.Orders.Find(o => customer.Orders.Contains(o.Id)).ToListAsync();
+            if (customer == null || customer.Orders == null)
+            {
+                return new List<Order>(); 
+            }
+
+            var orders = await _context.Orders
+                .Find(o => customer.Orders.Contains(o.Id) && o.Status == "In process")
+                .ToListAsync();
 
             return orders;
         }

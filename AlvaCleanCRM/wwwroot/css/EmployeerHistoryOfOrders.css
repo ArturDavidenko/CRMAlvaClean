@@ -1,4 +1,5 @@
-﻿:root {
+﻿
+:root {
     --primary-color: #4361ee;
     --success-color: #4cc9f0;
     --warning-color: #f8961e;
@@ -143,26 +144,6 @@
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
-.view-all {
-    text-align: right;
-    margin-top: 1.5rem;
-}
-
-.btn-view-all {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: var(--transition);
-}
-
-    .btn-view-all:hover {
-        color: var(--secondary-color);
-        gap: 0.75rem;
-    }
 
 /* Empty State */
 .no-orders {

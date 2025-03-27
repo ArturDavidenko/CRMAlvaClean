@@ -6,14 +6,15 @@
 
 @model List<Order>
 
-<link rel="stylesheet" href="~/css/AllOrdersOfEmployeer.css" asp-append-version="true" />
+
+<link rel="stylesheet" href="~/css/EmployeerHistoryOfOrders.css" asp-append-version="true" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="content">
     <div class="orders-container">
         <div class="orders-header">
-            <h1 class="orders-title">Employee Orders</h1>
+            <h1 class="orders-title">Employee Orders History</h1>
         </div>
 
         <div class="table-responsive">
@@ -57,12 +58,6 @@
                                 </td>
                             </tr>
                         }
-                        <div class="view-all">
-                            <a asp-action="HistoryOfAllOrdersOfEmployeerPage" asp-controller="Employeer" 
-                            asp-route-Id="@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value" class="btn-view-all">
-                                View history of orders<i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
                     }
                     else
                     {

@@ -7,10 +7,12 @@ namespace AlvaCleanCRM.Controllers
     public class EmployeerController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public EmployeerController(IEmployeerRepository employeerRepository)
+        public EmployeerController(IEmployeerRepository employeerRepository, IOrderRepository orderRepository)
         {
             _employeerRepository = employeerRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task<IActionResult> AllOrdersPageOfEmployeer(string employeerId)
@@ -37,5 +39,11 @@ namespace AlvaCleanCRM.Controllers
         }
 
 
+        public async Task<IActionResult> HistoryOfAllOrdersOfEmployeerPage(string Id)
+        {
+            var orders = await _orderRepository.GetAllCompletedOrdersOfEmployeer(Id);
+
+            return View("EmployeerHistoryOfOrders", orders);
+        }
     }
 }

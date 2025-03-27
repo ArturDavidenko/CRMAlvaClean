@@ -20,5 +20,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task DeleteOrderFromEmployeer(string orderId, string employeerId);
 
         public Task<List<Order>> GetAllCompletedOrders();
+
+        public Task<List<Order>> GetAllCompletedOrdersOfEmployeer(string employeerId);
     }
 }
