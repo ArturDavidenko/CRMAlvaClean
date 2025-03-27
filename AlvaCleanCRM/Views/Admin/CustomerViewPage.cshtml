@@ -48,13 +48,15 @@
             <i class="fas fa-clipboard-list"></i> Customer Current Orders
         </h2>
 
+        <div class="view-all">
+            <a asp-action="HistoryOfAllOrdersOfCustomer" asp-controller="Admin" asp-route-Id="@Model.Id" class="btn-view-all">
+                View history of orders<i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
         @if (Model.Orders.Count > 0)
         {
-            <div class="view-all">
-                <a asp-action="HistoryOfAllOrdersOfCustomer" asp-controller="Admin" asp-route-Id="@Model.Id" class="btn-view-all">
-                    View history of orders<i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+            
 
             <div class="swiper orders-swiper">
                 <div class="swiper-wrapper">

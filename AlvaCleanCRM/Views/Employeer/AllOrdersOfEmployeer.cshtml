@@ -30,6 +30,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <div class="view-all">
+                        <a asp-action="HistoryOfAllOrdersOfEmployeerPage" asp-controller="Employeer"
+                           asp-route-Id="@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value" class="btn-view-all">
+                            View history of orders<i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                     @if (Model.Count > 0)
                     {
                         @foreach (var item in Model)
@@ -57,12 +63,7 @@
                                 </td>
                             </tr>
                         }
-                        <div class="view-all">
-                            <a asp-action="HistoryOfAllOrdersOfEmployeerPage" asp-controller="Employeer" 
-                            asp-route-Id="@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value" class="btn-view-all">
-                                View history of orders<i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        
                     }
                     else
                     {
