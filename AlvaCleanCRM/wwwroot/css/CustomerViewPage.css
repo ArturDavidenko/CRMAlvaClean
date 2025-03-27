@@ -187,6 +187,26 @@
         color: var(--primary-color);
     }
 
+.view-all {
+    text-align: right;
+    margin-top: 1.5rem;
+}
+
+.btn-view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+    .btn-view-all:hover {
+        color: var(--secondary-color);
+        gap: 0.75rem;
+    }
+
 /* Empty State */
 .empty-orders {
     text-align: center;

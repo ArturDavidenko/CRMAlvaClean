@@ -122,6 +122,13 @@ namespace AlvaCleanCRM.Repositories
             return await response.Content.ReadFromJsonAsync<List<Order>>();
         }
 
+        public async Task<List<Order>> GetAllCompletedOrdersOfCustomer(string customerId)
+        {
+            SetUpRequestHeaderAuthorization();
+            var response = await _httpClient.GetAsync($"{_orderUrl}/get-all-completed-orders-of-customer/{customerId}");
+            return await response.Content.ReadFromJsonAsync<List<Order>>();
+        }
+
         //This one will soon replace by creating handler and set up in DI (BAD CODE!) 
         public void SetUpRequestHeaderAuthorization()
         {

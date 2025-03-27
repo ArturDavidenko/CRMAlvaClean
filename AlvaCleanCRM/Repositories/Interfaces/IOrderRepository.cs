@@ -22,5 +22,7 @@ namespace AlvaCleanCRM.Repositories.Interfaces
         public Task<List<Order>> GetAllCompletedOrders();
 
         public Task<List<Order>> GetAllCompletedOrdersOfEmployeer(string employeerId);
+
+        public Task<List<Order>> GetAllCompletedOrdersOfCustomer(string customerId);
     }
 }

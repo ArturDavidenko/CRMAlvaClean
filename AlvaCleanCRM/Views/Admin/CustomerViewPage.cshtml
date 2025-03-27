@@ -45,11 +45,17 @@
     <!-- Секция заказов -->
     <div class="orders-container">
         <h2 class="section-title">
-            <i class="fas fa-clipboard-list"></i> Customer Orders
+            <i class="fas fa-clipboard-list"></i> Customer Current Orders
         </h2>
 
         @if (Model.Orders.Count > 0)
         {
+            <div class="view-all">
+                <a asp-action="HistoryOfAllOrdersOfCustomer" asp-controller="Admin" asp-route-Id="@Model.Id" class="btn-view-all">
+                    View history of orders<i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
             <div class="swiper orders-swiper">
                 <div class="swiper-wrapper">
                     @foreach (var item in Model.Orders)

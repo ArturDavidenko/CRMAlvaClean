@@ -291,6 +291,12 @@ namespace AlvaCleanCRM.Controllers
             return View(historyOfAllOrders);
         }
 
+        public async Task<IActionResult> HistoryOfAllOrdersOfCustomer(string Id)
+        {
+            var historyOfAllOrders = await _orderRepository.GetAllCompletedOrdersOfCustomer(Id);
+            return View(historyOfAllOrders);
+        }
+
 
 
     }
