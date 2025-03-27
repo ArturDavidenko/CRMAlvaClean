@@ -107,6 +107,14 @@ namespace AlvaCleanCRM.Repositories
             await _httpClient.DeleteAsync($"{_orderUrl}/delete-order-from-employeer/{orderId}/{employeerId}");
         }
 
+        public async Task<List<Order>> GetAllCompletedOrders()
+        {
+            SetUpRequestHeaderAuthorization();
+            var response = await _httpClient.GetAsync($"{_orderUrl}/get-all-completed-orders");
+            return await response.Content.ReadFromJsonAsync<List<Order>>();
+        }
+
+
         //This one will soon replace by creating handler and set up in DI (BAD CODE!) 
         public void SetUpRequestHeaderAuthorization()
         {

@@ -284,5 +284,12 @@ namespace AlvaCleanCRM.Controllers
             return RedirectToAction("AllOrdersPage");
         }
 
+        public async Task<IActionResult> HistoryOfAllOrdersPage()
+        {
+            var historyOfAllOrders = await _orderRepository.GetAllCompletedOrders();
+
+            return View(historyOfAllOrders);
+        }
+
     }
 }
