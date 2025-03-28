@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlvaCleanCRM", "AlvaCleanCR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlvaCleanAPI", "..\AlvaCleanAPI\AlvaCleanAPI.csproj", "{0ADDD830-B132-46F9-B8D6-B360592D8430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlvaCleanAPIUnitTestes", "..\AlvaCleanAPIUnitTestes\AlvaCleanAPIUnitTestes.csproj", "{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlvaCleanAPIUnitTestes", "..\AlvaCleanAPIUnitTestes\AlvaCleanAPIUnitTestes.csproj", "{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0ADDD830-B132-46F9-B8D6-B360592D8430} = {0ADDD830-B132-46F9-B8D6-B360592D8430}
 	EndProjectSection
