@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlvaCleanCRM", "AlvaCleanCRM.csproj", "{35C93E1A-E7E5-4FB6-8AD9-48F6855D13B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlvaCleanCRM", "AlvaCleanCRM.csproj", "{35C93E1A-E7E5-4FB6-8AD9-48F6855D13B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlvaCleanAPI", "..\AlvaCleanAPI\AlvaCleanAPI.csproj", "{0ADDD830-B132-46F9-B8D6-B360592D8430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlvaCleanAPI", "..\AlvaCleanAPI\AlvaCleanAPI.csproj", "{0ADDD830-B132-46F9-B8D6-B360592D8430}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlvaCleanAPIUnitTestes", "..\AlvaCleanAPIUnitTestes\AlvaCleanAPIUnitTestes.csproj", "{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0ADDD830-B132-46F9-B8D6-B360592D8430} = {0ADDD830-B132-46F9-B8D6-B360592D8430}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{0ADDD830-B132-46F9-B8D6-B360592D8430}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ADDD830-B132-46F9-B8D6-B360592D8430}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ADDD830-B132-46F9-B8D6-B360592D8430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DAA788E-FF74-4DF5-800E-41E0023B9FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
