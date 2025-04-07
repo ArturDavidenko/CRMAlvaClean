@@ -75,6 +75,7 @@
 </div>
 
 @section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const deleteButtons = document.querySelectorAll(".delete-btn");
@@ -112,7 +113,7 @@
         $(document).ready(function () {
             $("#searchInput").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $(".grid-container .card").filter(function () {
+                $(".employees-grid .employee-card").filter(function () {
                     var cardText = $(this).text().toLowerCase();
                     $(this).toggle(cardText.indexOf(value) > -1);
                 });
