@@ -227,7 +227,7 @@ namespace AlvaCleanCRM.Controllers
                 Id = order.Id,
                 CustomerId = order.CustomerId,
                 OrderType = order.OrderType,
-                ClientComments= order.ClientComments,
+                ClientComments = order.ClientComments,
                 Address = order.Address,
                 Status = order.Status,
                 CustomersList = listOfCustomers,
