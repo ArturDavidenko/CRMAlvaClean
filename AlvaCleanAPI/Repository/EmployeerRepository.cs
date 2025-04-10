@@ -57,7 +57,7 @@ namespace AlvaCleanAPI.Repository
                 PhoneNumber = model.PhoneNumber,
                 Role = model.Role,
                 Orders = new List<string>(),
-                ImageId = "679d31a5d600c667d68e84b9" //BAD CODE temporary version!!!!!!!!
+                ImageId = null
             };
             
             await _context.Employeers.InsertOneAsync(newEmployeer);
@@ -141,11 +141,8 @@ namespace AlvaCleanAPI.Repository
 
                 await _context.Employeers.UpdateOneAsync(filter, update);
 
-                if (imageId != "679d31a5d600c667d68e84b9")
-                {
-                    var fileId = new ObjectId(imageId);
-                    await _gridFS.DeleteAsync(fileId);
-                }
+                var fileId = new ObjectId(imageId);
+                await _gridFS.DeleteAsync(fileId);
             }
             catch 
             {
