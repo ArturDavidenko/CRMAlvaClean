@@ -21,28 +21,18 @@ namespace AlvaCleanCRM.Repositories
 {
     public class EmployeerRepository : IEmployeerRepository
     {
-        public readonly string _autAPIUrl;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-        private readonly string _empAPIUrl;
-        private readonly string _adminAPIUrl;
-        private readonly string _orderAPIUrl;
-
-        public EmployeerRepository(IOptions<ApiSettings> apiSettings, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+ 
+        public EmployeerRepository(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
-            _autAPIUrl = apiSettings.Value.AuthUrl;
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
             _httpContextAccessor = httpContextAccessor;
-            _empAPIUrl = apiSettings.Value.EmployeerUrl;
-            _orderAPIUrl = apiSettings.Value.OrderUrl;
-            _adminAPIUrl = apiSettings.Value.AdminUrl;
         }
 
         public async Task<List<Employeer>> GetAllEmployeers()
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_empAPIUrl}/get-all-employeers");
+            var response = await _httpClient.GetAsync("Admin/get-all-employeers");
             return await response.Content.ReadFromJsonAsync<List<Employeer>>();
         }
 
@@ -55,7 +45,7 @@ namespace AlvaCleanCRM.Repositories
             };
 
             var jsonContent = new StringContent(JsonSerializer.Serialize(loginViewModel), Encoding.UTF8, "application/json");
-            var responseLogin = await _httpClient.PostAsync(_autAPIUrl, jsonContent);
+            var responseLogin = await _httpClient.PostAsync("Auth/Login-employeers", jsonContent);
             var token = await responseLogin.Content.ReadFromJsonAsync<JwtTokenResponse>();
 
             var cookieOptions = new CookieOptions
@@ -72,34 +62,25 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task AddNewEmployeer(RegisterEmployeerModel model)
         {
-            SetUpRequestHeaderAuthorization();
-
             var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync($"{_empAPIUrl}/register-new-employeer", jsonContent);
+            await _httpClient.PostAsync($"Admin/register-new-employeer", jsonContent);
         }
 
 
         public async Task<List<Order>> GetAllOrdersOfEmployeer(string employeerId)
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_orderAPIUrl}/get-all-orders-of-employeer/{employeerId}");
+            var response = await _httpClient.GetAsync($"Order/get-all-orders-of-employeer/{employeerId}");
             var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
 
             if (orders != null)
-            {
                 return orders;
-            }
-
+            
             return new List<Order>();
-
         }
 
         public async Task<List<Order>> GetAllOrders()
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_orderAPIUrl}/get-all-orders");
+            var response = await _httpClient.GetAsync($"Order/get-all-orders");
 
             var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
 
@@ -113,18 +94,13 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task<Employeer> GetEmployeer(string id)
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_adminAPIUrl}/get-employeer/{id}");
-
+            var response = await _httpClient.GetAsync($"Admin/get-employeer/{id}");
             return await response.Content.ReadFromJsonAsync<Employeer>();
         }
 
         public async Task<EmployeerToUpdateDto> GetEmployeerToUpdate(string id)
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_adminAPIUrl}/get-employeer/{id}");
+            var response = await _httpClient.GetAsync($"Admin/get-employeer/{id}");
 
             var emp = await response.Content.ReadFromJsonAsync<Employeer>();
 
@@ -167,8 +143,6 @@ namespace AlvaCleanCRM.Repositories
 
         public async Task UpdateEmployeer(EmployeerToUpdateDto model)
         {
-            SetUpRequestHeaderAuthorization();
-
             var employeerDto = new EmployeerToUpdateDto 
             { 
                 Id = model.Id,
@@ -180,7 +154,7 @@ namespace AlvaCleanCRM.Repositories
 
             var jsonContent = new StringContent(JsonSerializer.Serialize(employeerDto), Encoding.UTF8, "application/json");
 
-            await _httpClient.PutAsync($"{_adminAPIUrl}/update-employeer/{model.Id}", jsonContent);
+            await _httpClient.PutAsync($"Admin/update-employeer/{model.Id}", jsonContent);
 
             //this block can anyway doing when block upper is failed. that bad example of code
 
@@ -190,7 +164,7 @@ namespace AlvaCleanCRM.Repositories
 
                 if (employeer.Image != null) 
                 {
-                    await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{employeer.ImageId}");
+                    await _httpClient.DeleteAsync($"Admin/delete-photo-of-employeer/{employeer.ImageId}");
                 }
 
                 var formData = new MultipartFormDataContent();
@@ -204,33 +178,21 @@ namespace AlvaCleanCRM.Repositories
 
                 //var jsonContentImage = new StringContent(JsonSerializer.Serialize(formData), Encoding.UTF8, "application/json");
 
-                await _httpClient.PostAsync($"{_adminAPIUrl}/add-photo-to-employeer/{model.Id}", formData);
+                await _httpClient.PostAsync($"Admin/add-photo-to-employeer/{model.Id}", formData);
             }
         }
 
         public async Task DeleteImageOfEmployeer(string employeerId)
         {
-            SetUpRequestHeaderAuthorization();
-
             if (employeerId != null)
             {
-                await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-photo-of-employeer/{employeerId}");
+                await _httpClient.DeleteAsync($"Admin/delete-photo-of-employeer/{employeerId}");
             }
         }
 
         public async Task DeleteEmployeer(string id)
         {
-            SetUpRequestHeaderAuthorization();
-            await _httpClient.DeleteAsync($"{_adminAPIUrl}/delete-employeer/{id}");
-        }
-
-
-        public void SetUpRequestHeaderAuthorization()
-        {
-            var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        
+            await _httpClient.DeleteAsync($"Admin/delete-employeer/{id}");
+        }  
     }
 }

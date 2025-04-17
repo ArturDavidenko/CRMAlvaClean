@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, employeer, manager")] //temporary version (neccassery cuz end point "get-employeer" shoud be aviable for employee)
     public class AdminController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;
@@ -91,7 +91,6 @@ namespace AlvaCleanAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpGet("get-employeer/{employeerId}")]
         public async Task<IActionResult> GetEmployeer(string employeerId)

@@ -12,70 +12,47 @@ namespace AlvaCleanCRM.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-        private readonly string _customerUrl;
-        private readonly string _orderUrl;
-       
-        public CustomerRepository(IOptions<ApiSettings> apiSettings, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        
+        public CustomerRepository(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpContextAccessor = httpContextAccessor;
-            _customerUrl = apiSettings.Value.CustomerUrl;
-            _orderUrl = apiSettings.Value.OrderUrl;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
         public async Task CreateNewCustomer(RegisterCustomerModel model)
         {
-            SetUpRequestHeaderAuthorization();
             var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
-
-            await _httpClient.PostAsync($"{_customerUrl}/register-new-customer", jsonContent);
-
+            await _httpClient.PostAsync($"Customer/register-new-customer", jsonContent);
         }
 
         public async Task DeleteCustomer(string id)
         {
-            SetUpRequestHeaderAuthorization();
-            await _httpClient.DeleteAsync($"{_customerUrl}/delete-customer/{id}");
+            await _httpClient.DeleteAsync($"Customer/delete-customer/{id}");
         }
 
         public async Task<List<Customer>> GetAllCustomers()
         {
-            SetUpRequestHeaderAuthorization();
-
-            var response = await _httpClient.GetAsync($"{_customerUrl}/get-list-of-customers");
+            var response = await _httpClient.GetAsync($"Customer/get-list-of-customers");
             return await response.Content.ReadFromJsonAsync<List<Customer>>();
         }
 
         public async Task<Customer> GetCustomer(string id)
         {
-            SetUpRequestHeaderAuthorization();
-            var response = await _httpClient.GetAsync($"{_customerUrl}/get-customer/{id}");
+            var response = await _httpClient.GetAsync($"Customer/get-customer/{id}");
             return await response.Content.ReadFromJsonAsync<Customer>();
         }
 
         public async Task UpdateCustomer(CustomerToUpdateInAPI model, string id)
         {
-            SetUpRequestHeaderAuthorization();
             var jsonContent = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
-
-            await _httpClient.PutAsync($"{_customerUrl}/update-customer/{id}", jsonContent);
+            await _httpClient.PutAsync($"Customer/update-customer/{id}", jsonContent);
         }
 
         public async Task<List<Order>> GetCustomerOrdersList(string customerId)
         {
-            var response = await _httpClient.GetAsync($"{_orderUrl}/get-all-orders-of-customer/{customerId}");
-
+            var response = await _httpClient.GetAsync($"Order/get-all-orders-of-customer/{customerId}");
             return await response.Content.ReadFromJsonAsync<List<Order>>();
         }
-
-        public void SetUpRequestHeaderAuthorization()
-        {
-            var token = _httpContextAccessor.HttpContext.Session.GetString("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
        
     }
 }

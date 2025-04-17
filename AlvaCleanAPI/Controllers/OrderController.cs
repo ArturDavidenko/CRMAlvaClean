@@ -8,7 +8,7 @@ namespace AlvaCleanAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    //[Authorize(Roles = "employeer,admin")]
+    [Authorize(Roles = "employeer,admin")]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;

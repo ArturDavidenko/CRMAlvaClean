@@ -1,3 +1,4 @@
+using AlvaCleanCRM.Models.Handlers;
 using AlvaCleanCRM.Models.SettingModels;
 using AlvaCleanCRM.Repositories;
 using AlvaCleanCRM.Repositories.Interfaces;
@@ -67,6 +68,16 @@ namespace AlvaCleanCRM
                         }
                     };
                 });
+
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddTransient<AuthorizationHandler>();
+
+            builder.Services.AddHttpClient("ApiClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7251/");
+            })
+            .AddHttpMessageHandler<AuthorizationHandler>();
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.
