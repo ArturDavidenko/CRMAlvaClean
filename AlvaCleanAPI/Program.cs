@@ -43,6 +43,16 @@ namespace AlvaCleanAPI
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")  // Разрешить только Angular frontend
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -90,6 +100,7 @@ namespace AlvaCleanAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowAngularApp");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
