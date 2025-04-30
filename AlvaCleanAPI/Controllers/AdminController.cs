@@ -9,7 +9,7 @@ namespace AlvaCleanAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    //[Authorize(Roles = "admin, employeer, manager")] //temporary version (neccassery cuz end point "get-employeer" shoud be aviable for employee)
+    [Authorize(Roles = "admin, employeer, manager")] //temporary version (neccassery cuz end point "get-employeer" shoud be aviable for employee)
     public class AdminController : Controller
     {
         private readonly IEmployeerRepository _employeerRepository;

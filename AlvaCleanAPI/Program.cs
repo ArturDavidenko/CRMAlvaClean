@@ -49,7 +49,8 @@ namespace AlvaCleanAPI
                 {
                     policy.WithOrigins("http://localhost:4200")  // Разрешить только Angular frontend
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                 });
             });
 
